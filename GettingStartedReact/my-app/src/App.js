@@ -8,10 +8,10 @@ function App() {
       <Navbar dark color="primary">
         <div className="container">
           <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
+          {/* LAB03 */}
         </div>
       </Navbar>
     </div>
   );
 }
-
 export default App;
