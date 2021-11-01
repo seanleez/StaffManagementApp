@@ -1,8 +1,10 @@
+// Allow us to create React components
 import React, { Component } from 'react';
 import { Media } from 'reactstrap';
 
 class Menu extends Component {
     constructor(props) {
+      // Supply this props to my super class
         super(props);
         this.state = {
             dishes: [
@@ -41,16 +43,16 @@ class Menu extends Component {
                ],
         };
     }
-
+    // Return what will be displayed on this UI by this component
     render() {
         const menu = this.state.dishes.map((dish) => {
             return (
               <div key={dish.id} className="col-12 mt-5">
                 <Media tag="li">
-                  <Media left middle>
+                  <Media left middle className="col-2">
                       <Media object src={dish.image} alt={dish.name} />
                   </Media>
-                  <Media body className="ml-5">
+                  <Media body className="ml-5 col-10">
                     <Media heading>{dish.name}</Media>
                     <p>{dish.description}</p>
                   </Media>
@@ -71,4 +73,5 @@ class Menu extends Component {
     }
 }
 
+// For import this component wherever we need in application
 export default Menu;
