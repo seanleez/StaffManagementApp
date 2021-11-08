@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Card, CardText, CardBody, CardTitle} from 'reactstrap'
+import {Card, CardText, CardTitle} from 'reactstrap'
+import dateFormat from 'dateformat'
 
 class StaffList extends Component {
     constructor(props) {
@@ -14,11 +15,16 @@ class StaffList extends Component {
     }
 
     renderStaff(staff) {
-        if (staff!=null) {
+        if (staff != null) {
             return(
-                <div className="row">
-                    <Card className="col-12">
-                        <CardTitle>{staff.name}</CardTitle>
+                <div className="row information">
+                    <Card className="col-12 col-md-6 col-lg-4">
+                        <CardTitle>Name: {staff.name}</CardTitle>
+                        <CardText>Day of Birth: {dateFormat(staff.doB, "dd, mm, yyyy")}</CardText>
+                        <CardText>Start Day: {dateFormat(staff.startDay, "dd, mm, yyyy")}</CardText>
+                        <CardText>Department: {staff.department.name}</CardText>
+                        <CardText>Annual Leave: {staff.annualLeave}</CardText>
+                        <CardText>Over Time: {staff.overTime}</CardText>
                     </Card>
                 </div>
             )
@@ -30,9 +36,10 @@ class StaffList extends Component {
     }
 
     render() {
+        console.log(this.props);
         const staffList = this.props.staffs.map((staff) => {
             return(
-                <div key={staff.id} className="col-12">
+                <div key={staff.id} className={this.props.responsiveCol}>
                     <Card onClick={() => this.onStaffSelected(staff)}>
                         <CardTitle>{staff.name}</CardTitle>
                     </Card>
@@ -43,8 +50,9 @@ class StaffList extends Component {
             <div className="container">
                 <div className="row">
                     {staffList}
+                    <p>{document.getElementById('#colSelect')}</p>
                 </div>
-                <div className="row">
+                <div className="row" id="staffInfor">
                     {this.renderStaff(this.state.seletedStaff)}
                 </div>
             </div>

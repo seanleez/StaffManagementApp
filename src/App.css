@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+select {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+div.card:hover {
+    cursor: pointer;
+}
+
+.information {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.information > .card {
+  margin: auto;
+}
+
+#staffInfor {
+  text-align: center;
+}
+
+.card-title {
+  padding-left: 10px;
+  font-size: large;
+  font-weight: bold;
+}
+
+.information .card-title {
+  padding-left: 0;
+}
