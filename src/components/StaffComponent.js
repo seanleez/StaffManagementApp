@@ -36,7 +36,6 @@ class StaffList extends Component {
     }
 
     render() {
-        console.log(this.props);
         const staffList = this.props.staffs.map((staff) => {
             return(
                 <div key={staff.id} className={this.props.responsiveCol}>

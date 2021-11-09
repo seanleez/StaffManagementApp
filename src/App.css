@@ -41,17 +41,21 @@ div.card:hover {
     padding-left: 0;
 }
 
+div select:nth-child(2) {
+    margin-left: 10px;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 992px) {
-    select option:nth-child(1) {
+    div select:nth-child(1) option:nth-child(1) {
         display: none;
     }
 }
 
 @media only screen and (max-width: 767.9px) {
-    select option:nth-child(1) {
+    div select:nth-child(1) option:nth-child(1) {
         display: none;
     }
-    select option:nth-child(2) {
+    div select:nth-child(1) option:nth-child(2) {
         display: none;
     }
 }

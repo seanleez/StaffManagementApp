@@ -3,7 +3,6 @@ import './App.css';
 import StaffList from './components/StaffComponent';
 import { Navbar, NavbarBrand } from 'reactstrap';
 import { STAFFS } from './shared/staffs';
-// import { OPTIONS } from './shared/options'
 
 class App extends Component {
 	constructor(props) {
@@ -13,6 +12,7 @@ class App extends Component {
             responsiveCol: ""
 		};
         this.handleChange = this.handleChange.bind(this);
+        this.handleDepartmentChange = this.handleDepartmentChange.bind(this);
 	}
 
     // After component did mount, add eventlistener to catch resize of window
@@ -39,6 +39,22 @@ class App extends Component {
     handleChange(e) {
         this.setState({ responsiveCol: e.target.value });
     }
+
+    handleDepartmentChange(e) {
+        if (e.target.value === 'all') {
+            this.setState({ staffs : STAFFS});
+        } else {
+            const newStaffs = []
+            for (let i = 0; i < STAFFS.length; i++) {
+                if (STAFFS[i].department.name === e.target.value) {
+                    newStaffs.push(STAFFS[i]);
+                }
+            }
+            this.setState({ staffs : newStaffs });
+        }
+        
+    }
+
 	render() {
 		return (
 			<div className="App">
@@ -57,6 +73,16 @@ class App extends Component {
                         <option value="col-12 col-md-6 col-lg-4">Three Columns</option>
                         <option value="col-12 col-md-6">Two Columns</option>
                         <option value="col-12">One Column</option>
+                    </select>
+
+                    <select onChange={this.handleDepartmentChange}>
+                        <option defaultValue hidden>Department</option>
+                        <option value="all">All</option>
+                        <option value="Sale">Sale</option>
+                        <option value="HR">HR</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="IT">IT</option>
+                        <option value="Finance">Finance</option>
                     </select>
                 </div>
 				<StaffList staffs={this.state.staffs} responsiveCol={this.state.responsiveCol} />
