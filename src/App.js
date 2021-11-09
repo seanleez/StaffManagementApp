@@ -85,6 +85,7 @@ class App extends Component {
                         <option value="Finance">Finance</option>
                     </select>
                 </div>
+                {/* Transfer as props */}
 				<StaffList staffs={this.state.staffs} responsiveCol={this.state.responsiveCol} />
 			</div>
 		);
