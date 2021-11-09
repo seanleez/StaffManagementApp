@@ -1,5 +1,5 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 select {
@@ -8,8 +8,8 @@ select {
 }
 
 div {
-  margin-top: 3px;
-  margin-bottom: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 div.card:hover {
@@ -17,24 +17,41 @@ div.card:hover {
 }
 
 .information {
-  margin-top: 10px;
-  margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .information > .card {
-  margin: auto;
+    margin: auto;
 }
 
 #staffInfor {
-  text-align: center;
+    text-align: center;
 }
 
 .card-title {
-  padding-left: 10px;
-  font-size: large;
-  font-weight: bold;
+    padding-left: 10px;
+    font-size: large;
+    font-weight: bold;
 }
 
 .information .card-title {
-  padding-left: 0;
+    padding-left: 0;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    select option:nth-child(1) {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 767.9px) {
+    select option:nth-child(1) {
+        display: none;
+    }
+    select option:nth-child(2) {
+        display: none;
+    }
 }
