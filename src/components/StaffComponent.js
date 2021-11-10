@@ -36,7 +36,15 @@ class StaffList extends Component {
     }
 
     render() {
-        const staffList = this.props.staffs.map((staff) => {
+        let staffList = [];
+        if (this.props.department === "all") {
+            staffList = this.props.staffs
+        } else {
+            staffList = this.props.staffs.filter(
+                (staff) => staff.department.name === this.props.department
+            )
+        }
+        const staffListByDepartment = staffList.map((staff) => {
             return(
                 <div key={staff.id} className={this.props.responsiveCol}>
                     <Card onClick={() => this.onStaffSelected(staff)}>
@@ -48,7 +56,7 @@ class StaffList extends Component {
         return(
             <div className="container">
                 <div className="row">
-                    {staffList}
+                    {staffListByDepartment}
                     <p>{document.getElementById('#colSelect')}</p>
                 </div>
                 <div className="row" id="staffInfor">

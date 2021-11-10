@@ -9,7 +9,8 @@ class App extends Component {
 		super(props);
 		this.state = {
 			staffs: STAFFS,
-            responsiveCol: ""
+            responsiveCol: "",
+            department:"all"
 		};
         this.handleChange = this.handleChange.bind(this);
         this.handleDepartmentChange = this.handleDepartmentChange.bind(this);
@@ -41,18 +42,7 @@ class App extends Component {
     }
 
     handleDepartmentChange(e) {
-        if (e.target.value === 'all') {
-            this.setState({ staffs : STAFFS});
-        } else {
-            const newStaffs = []
-            for (let i = 0; i < STAFFS.length; i++) {
-                if (STAFFS[i].department.name === e.target.value) {
-                    newStaffs.push(STAFFS[i]);
-                }
-            }
-            this.setState({ staffs : newStaffs });
-        }
-        
+        this.setState({ department : e.target.value })
     }
 
 	render() {
@@ -86,7 +76,7 @@ class App extends Component {
                     </select>
                 </div>
                 {/* Transfer state from parent to child as props */}
-				<StaffList staffs={this.state.staffs} responsiveCol={this.state.responsiveCol} />
+				<StaffList staffs={this.state.staffs} responsiveCol={this.state.responsiveCol} department={this.state.department}/>
 			</div>
 		);
 	}
