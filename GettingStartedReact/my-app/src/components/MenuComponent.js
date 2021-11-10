@@ -5,10 +5,10 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 're
 class Menu extends Component {
     constructor(props) {
       // Supply this props to my super class
-        super(props);
-        this.state = {
-          selectedDish: null
-        };
+      super(props);
+      this.state = {
+        selectedDish: null
+      };
     }
 
     onDishSelected(dish) {
