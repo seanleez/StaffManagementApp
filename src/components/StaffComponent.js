@@ -6,8 +6,41 @@ class StaffList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            seletedStaff: null
+            seletedStaff: null,
+            responsiveCol: "col-12 col-md-6 col-lg-4",
+            department: "all"
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleDepartmentChange = this.handleDepartmentChange.bind(this);
+    }
+
+    // After component did mount, add eventlistener to catch resize of window
+    // Whenever width of window satisfy below condition, we setState of this Component, 
+    // this will effect change selected value of [SELECT]
+    // and transfer responsiveCol to StaffList as a props
+    componentDidMount() {
+        window.addEventListener("resize", this.resize.bind(this));
+        this.resize();
+    }
+    resize() {
+        if (window.innerWidth >= 992 ) {
+            this.setState({ responsiveCol : "col-12 col-md-6 col-lg-4"});
+        } else if (window.innerWidth < 992 && window.innerWidth >= 768) {
+            this.setState({ responsiveCol : "col-12 col-md-6" })
+        } else {
+            this.setState({ responsiveCol : "col-12"})
+        }
+    }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resize.bind(this));
+    }
+
+    handleChange(e) {
+        this.setState({ responsiveCol: e.target.value });
+    }
+
+    handleDepartmentChange(e) {
+        this.setState({ department : e.target.value })
     }
 
     onStaffSelected(staff) {
@@ -37,24 +70,40 @@ class StaffList extends Component {
 
     render() {
         let staffList = [];
-        if (this.props.department === "all") {
+        if (this.state.department === "all") {
             staffList = this.props.staffs
         } else {
-            staffList = this.props.staffs.filter(
-                (staff) => staff.department.name === this.props.department
-            )
+            staffList = this.props.staffs.filter((staff) => staff.department.name === this.state.department)
         }
+
         const staffListByDepartment = staffList.map((staff) => {
             return(
-                <div key={staff.id} className={this.props.responsiveCol}>
+                <div key={staff.id} className={this.state.responsiveCol}>
                     <Card onClick={() => this.onStaffSelected(staff)}>
                         <CardTitle>{staff.name}</CardTitle>
                     </Card>
                 </div>
             )
         });
+
         return(
             <div className="container">
+                <select value={this.state.responsiveCol} onChange={this.handleChange}>
+                    <option value="col-12 col-md-6 col-lg-4">Three Columns</option>
+                    <option value="col-12 col-md-6">Two Columns</option>
+                    <option value="col-12">One Column</option>
+                </select>
+
+                <select onChange={this.handleDepartmentChange}>
+                    <option defaultValue hidden>Department</option>
+                    <option value="all">All</option>
+                    <option value="Sale">Sale</option>
+                    <option value="HR">HR</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="IT">IT</option>
+                    <option value="Finance">Finance</option>
+                </select>
+                <p>Number of Staff(s): {staffListByDepartment.length}</p>
                 <div className="row">
                     {staffListByDepartment}
                     <p>{document.getElementById('#colSelect')}</p>
