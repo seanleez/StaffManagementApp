@@ -1,61 +1,64 @@
-* {
-    box-sizing: border-box;
-}
-
-select {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-div {
-    margin-top: 3px;
-    margin-bottom: 3px;
+.navbar-dark {
+    background-color: #cb5601;
 }
 
 div.card:hover {
     cursor: pointer;
 }
 
-.information {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+div.card {
+    background-color: #e7e5e4;
 }
 
-.information > .card {
-    margin: auto;
+.card i {
+    color: red;
 }
 
-#staffInfor {
-    text-align: center;
+div.border-3 {
+    background-color: #d4d2d0;
+}
+
+a {
+    text-decoration: none;
+    color:blue;
 }
 
 .card-title {
-    padding-left: 10px;
-    font-size: large;
-    font-weight: bold;
+    color:black;
 }
 
-.information .card-title {
-    padding-left: 0;
+.row-header{
+    margin:0px auto;
+    padding:0px auto;
 }
 
-div select:nth-child(2) {
-    margin-left: 10px;
+.row-content {
+    margin:0px auto;
+    padding: 50px 0px 50px 0px;
+    border-bottom: 1px ridge;
+    min-height:400px;
 }
 
-@media only screen and (min-width: 768px) and (max-width: 992px) {
-    div select:nth-child(1) option:nth-child(1) {
-        display: none;
-    }
+.footer{
+    background-color: #ffe1cc;
+    margin:0px auto;
+    padding: 20px 0px 20px 0px;
 }
 
-@media only screen and (max-width: 767.9px) {
-    div select:nth-child(1) option:nth-child(1) {
-        display: none;
-    }
-    div select:nth-child(1) option:nth-child(2) {
-        display: none;
+address{
+    font-size:80%;
+    margin:0px;
+    color:#0f0f0f;
+}
+
+.blockquote-footer {
+    position: relative;
+    top: 20px;
+}
+
+@media screen and (min-width: 992px) {
+    .collapse {
+        display: flex;
+        justify-content: end;
     }
 }
