@@ -18,7 +18,7 @@ class Main extends Component {
             departments: DEPARTMENTS
         };
     }
-    
+
     render() {
         const StaffWithId = ({match}) => {
             console.log(this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10)))

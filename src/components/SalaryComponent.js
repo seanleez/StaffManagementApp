@@ -33,14 +33,14 @@ class Salary extends Component {
     render() {
         // Use slice method for clone an array
         var sortList = this.props.salaryItems.slice();
-        if (this.state.sortOrder === "salaryAscending") {
+        if (this.state.sortOrder === "idAscending") {
+            sortList.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
+        } else if (this.state.sortOrder === "idDescending") {
+            sortList.sort((a,b) => (a.id < b.id) ? 1 : ((b.id < a.id) ? -1 : 0))
+        } else if (this.state.sortOrder === "salaryAscending"){
             sortList.sort((a,b) => (a.salary > b.salary) ? 1 : ((b.salary > a.salary) ? -1 : 0))
-        } else if (this.state.sortOrder === "salaryDescending") {
-            sortList.sort((a,b) => (a.salary < b.salary) ? 1 : ((b.salary < a.salary) ? -1 : 0))
-        } else if (this.state.sortOrder === "nameAscending"){
-            sortList.sort((a,b) => (a.name.split(" ").at(-1) > b.name.split(" ").at(-1)) ? 1 : ((b.name.split(" ").at(-1) > a.name.split(" ").at(-1)) ? -1 : 0))
         } else {
-            sortList.sort((a,b) => (a.name.split(" ").at(-1) < b.name.split(" ").at(-1)) ? 1 : ((b.name.split(" ").at(-1) < a.name.split(" ").at(-1)) ? -1 : 0))
+            sortList.sort((a,b) => (a.salary < b.salary) ? 1 : ((b.salary < a.salary) ? -1 : 0))
         }
 
         const salaryItemList = sortList.map((salaryItem) => {
@@ -64,8 +64,8 @@ class Salary extends Component {
                 </div>
                 <select onChange={this.handleSortChange} className="mb-2">
                     <option defaultValue hidden>Sort by</option>
-                    <option value="nameAscending">Name: Ascending</option>
-                    <option value="nameDescending">Name: Descending</option>
+                    <option value="idAscending">ID: Ascending</option>
+                    <option value="idDescending">ID: Descending</option>
                     <option value="salaryAscending">Salary: Ascending</option>
                     <option value="salaryDescending">Salary: Descending</option>
                 </select>
