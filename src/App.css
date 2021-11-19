@@ -2,6 +2,10 @@
     background-color: #cb5601;
 }
 
+.height-60 {
+    height: 60px;
+}
+
 input {
     width: 55% !important;
 }
@@ -71,5 +75,11 @@ address{
     .justifycontentend {
         display: flex;
         justify-content: flex-end;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .height-60 {
+        height: 100px;
     }
 }

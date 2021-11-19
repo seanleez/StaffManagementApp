@@ -28,7 +28,7 @@ class Main extends Component {
         };
         
         return (
-            <div className='App'>
+            <div>
                 <Header />
                 <Switch>
                     <Route exact path="/staff" component={() => <StaffList staffs={this.state.staffs} />} />

@@ -21,8 +21,9 @@ const Department = (props) => {
     });
     return(
         <div className="container mb-3">
+            <div className="row height-60"></div>
             <div className="row mt-2">
-                <Breadcrumb>
+                <Breadcrumb className="mx-2">
                     <BreadcrumbItem><Link to="/staff">Staff</Link></BreadcrumbItem>
                     <BreadcrumbItem active>Department</BreadcrumbItem>
                 </Breadcrumb>

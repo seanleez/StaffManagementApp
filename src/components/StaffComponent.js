@@ -35,9 +35,9 @@ class StaffList extends Component {
     render() {
         var sortList = this.props.staffs.slice()
         if (this.state.sortOrder === "nameAscending") {
-            sortList.sort((a,b) => (a.name.split(" ").at(-1) > b.name.split(" ").at(-1)) ? 1 : ((b.name.split(" ").at(-1) > a.name.split(" ").at(-1)) ? -1 : 0))
+            sortList.sort((a,b) => { return a.name.split(" ").at(-1).localeCompare(b.name.split(" ").at(-1), 'vi')});
         } else {
-            sortList.sort((a,b) => (a.name.split(" ").at(-1) < b.name.split(" ").at(-1)) ? 1 : ((b.name.split(" ").at(-1) < a.name.split(" ").at(-1)) ? -1 : 0))
+            sortList.sort((a,b) => { return b.name.split(" ").at(-1).localeCompare(a.name.split(" ").at(-1), 'vi')});
         }
 
         if (this.state.findStaffName !== "all") {
@@ -54,6 +54,7 @@ class StaffList extends Component {
 
         return(
             <div className="container">
+                <div className="row height-60"></div>
                 <div className="row">
                     <div className="col-12 mt-2">
                         <h3>Staff</h3>
@@ -83,4 +84,5 @@ class StaffList extends Component {
         )
     }
 }
+
 export default StaffList

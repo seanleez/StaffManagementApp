@@ -21,7 +21,7 @@ class Salary extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            sortOrder: "nameAscending"
+            sortOrder: "idAscending"
         }
         this.handleSortChange = this.handleSortChange.bind(this)
     }
@@ -34,13 +34,13 @@ class Salary extends Component {
         // Use slice method for clone an array
         var sortList = this.props.salaryItems.slice();
         if (this.state.sortOrder === "idAscending") {
-            sortList.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
+            sortList.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
         } else if (this.state.sortOrder === "idDescending") {
-            sortList.sort((a,b) => (a.id < b.id) ? 1 : ((b.id < a.id) ? -1 : 0))
+            sortList.sort((a,b) => (a.id < b.id) ? 1 : ((b.id < a.id) ? -1 : 0));
         } else if (this.state.sortOrder === "salaryAscending"){
-            sortList.sort((a,b) => (a.salary > b.salary) ? 1 : ((b.salary > a.salary) ? -1 : 0))
+            sortList.sort((a,b) => (a.salary > b.salary) ? 1 : ((b.salary > a.salary) ? -1 : 0));
         } else {
-            sortList.sort((a,b) => (a.salary < b.salary) ? 1 : ((b.salary < a.salary) ? -1 : 0))
+            sortList.sort((a,b) => (a.salary < b.salary) ? 1 : ((b.salary < a.salary) ? -1 : 0));
         }
 
         const salaryItemList = sortList.map((salaryItem) => {
@@ -52,8 +52,9 @@ class Salary extends Component {
         })
         return(
             <div className="container mb-3">
+                <div className="row height-60"></div>
                 <div className="row mt-2">
-                    <Breadcrumb>
+                    <Breadcrumb className="mx-2">
                         <BreadcrumbItem><Link to="/staff">Staff</Link></BreadcrumbItem>
                         <BreadcrumbItem active>Salary</BreadcrumbItem>
                     </Breadcrumb>

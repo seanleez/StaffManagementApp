@@ -29,6 +29,7 @@ const StaffDetail = (props) => {
     if (props.staff != null) {
         return(
             <div className="container">
+                <div className="row height-60"></div>
                 <div className="row">
                     <Breadcrumb>
                         <BreadcrumbItem><Link to="/staff">Staff</Link></BreadcrumbItem>
