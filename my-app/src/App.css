@@ -31,3 +31,12 @@ address{
 .navbar-dark {
     background-color: #512DA8;
 }
+
+.blockquote-footer {
+    position: relative;
+    top: 20px;
+}
+
+#top {
+    vertical-align: top;
+}
