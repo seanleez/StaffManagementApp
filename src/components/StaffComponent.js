@@ -46,7 +46,7 @@ class StaffList extends Component {
 
         const staffList = sortList.map((staff) => {
             return(
-                <div key={staff.id} className="col-12 col-sm-4 col-lg-2 my-2 p-2">
+                <div key={staff.id} className="col-6 col-sm-4 col-lg-2 my-2 p-2">
                     <RenderStaffItem staff={staff}/>
                 </div>
             )
