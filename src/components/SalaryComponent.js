@@ -63,13 +63,19 @@ class Salary extends Component {
                         <hr />
                     </div>
                 </div>
-                <select onChange={this.handleSortChange} className="mb-2">
-                    <option defaultValue hidden>Sort by</option>
-                    <option value="idAscending">ID: Ascending</option>
-                    <option value="idDescending">ID: Descending</option>
-                    <option value="salaryAscending">Salary: Ascending</option>
-                    <option value="salaryDescending">Salary: Descending</option>
-                </select>
+                <div className="row">
+                    <div className="col-12">
+                        <span><i>SortStaff: </i></span>
+                        <select onChange={this.handleSortChange} className="mb-2">
+                            <option defaultValue hidden>Sort by</option>
+                            <option value="idAscending">ID: Ascending</option>
+                            <option value="idDescending">ID: Descending</option>
+                            <option value="salaryAscending">Salary: Ascending</option>
+                            <option value="salaryDescending">Salary: Descending</option>
+                        </select>
+                        <hr />
+                    </div>
+                </div>
                 <div className="row">
                     {salaryItemList}
                 </div>
