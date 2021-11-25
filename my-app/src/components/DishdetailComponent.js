@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody,
-    CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+    CardTitle, Breadcrumb, BreadcrumbItem, Button,
+    Modal, ModalHeader, ModalBody, Row, Col, Label } from 'reactstrap';
+import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import dateFormat from 'dateformat';
 
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => (val) && (val.length >= len);
 
 function RenderDish({dish}) {
     return(
@@ -43,6 +48,113 @@ function RenderComments({comments}) {
     }
 }
 
+class LeaveComment extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isModalOpen: false
+        }
+        this.toggleModal = this.toggleModal.bind(this);
+    }
+
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen
+        });
+    }
+
+    handleSubmitComment(values) {
+        alert(JSON.stringify(values));
+    }
+
+    render() {
+        return(
+            <React.Fragment>
+                <Button outline onClick={this.toggleModal}>
+                    <span className="fa fa-pencil fa-lg"></span> Submit Comment
+                </Button>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+                    <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+                    <ModalBody>
+                        <LocalForm onSubmit={(values) => this.handleSubmitComment(values)}>
+                            <Row className="form-group">
+                                <Label htmlFor="rating">Rating:</Label>
+                                <Col md={12}>
+                                    <Control.select model=".rating" name="rating"
+                                        className="form-control"
+                                        validators={{
+                                            required
+                                        }}>
+                                        <option defaultValue hidden>--Choose one from below options--</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </Control.select>
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".rating"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required'
+                                        }}
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Label htmlFor="username">User Name:</Label>
+                                <Col md={12}>
+                                    <Control.text model=".username" id="username" name="username"
+                                        placeholder="UserName"
+                                        className="form-control"
+                                        validators={{
+                                            required, minLength: minLength(3), maxLength: maxLength(15)
+                                        }} />
+                                    <Errors 
+                                        className="text-danger" 
+                                        model=".username"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be greater than 2 characters',
+                                            maxLength: 'Must be less than 15 characters',
+                                    }} />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Label htmlFor="comment">Comments:</Label>
+                                <Col>
+                                    <Control.textarea model=".comment" id="comment" name="comment"
+                                        rows="5"
+                                        className="form-control"
+                                        validators={{
+                                            required
+                                        }} /> 
+                                    <Errors 
+                                        className="text-danger" 
+                                        model=".comment"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                    }} />
+                                </Col>
+                            </Row>
+                            <Row className="form-group mt-2">
+                                <Col>
+                                    <Button type="submit" color="primary">Submit Comment</Button>
+                                </Col>
+                            </Row>
+                        </LocalForm>
+                    </ModalBody>
+                </Modal>
+            </React.Fragment>
+            
+            
+        );
+    }
+}
+
 const DishDetail = (props) => {
     if (props.dish != null) {
         return (
@@ -63,6 +175,7 @@ const DishDetail = (props) => {
                     </div>
                     <div className="col-12 col-md-5 m-1">
                         <RenderComments comments={props.comments} />
+                        <LeaveComment />
                     </div>
                 </div>
             </div>
