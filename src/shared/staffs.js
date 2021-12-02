@@ -1,6 +1,6 @@
 import { DEPARTMENTS } from "./departments";
 // import { ROLE } from "./roles";
-export const STAFFS =
+export var STAFFS =
     [
         {
             id: 0,
@@ -193,6 +193,5 @@ export const STAFFS =
             overTime: 10,
             salary: 5000000,
             image: '../assets/images/HarryPotter.jpg',
-        },
-
+        }
     ]

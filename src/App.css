@@ -1,3 +1,7 @@
+body {
+    padding-right: 0 !important;
+}
+
 .navbar-dark {
     background-color: #cb5601;
 }
@@ -82,4 +86,8 @@ address{
     .height-60 {
         height: 100px;
     }
+}
+
+div.modal .form-group {
+    margin-bottom: 10px;
 }
