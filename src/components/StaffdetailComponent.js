@@ -16,7 +16,7 @@ function RenderStaff({staff}) {
                     <Media heading>{staff.name}</Media>
                     <p>Day of Birth: {dateFormat(staff.doB, "dd, mm, yyyy")}</p>
                     <p>Start Day: {dateFormat(staff.startDay, "dd, mm, yyyy")}</p>
-                    <p>Department: {staff.department.name}</p>
+                    <p>Department: {typeof(staff.department) == 'string' ? staff.department : staff.department.name}</p>
                     <p>Annual Leave: {staff.annualLeave}</p>
                     <p>Over Time: {staff.overTime}</p>
                 </Media>

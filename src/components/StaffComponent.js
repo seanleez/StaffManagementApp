@@ -31,6 +31,7 @@ class StaffList extends Component {
             salaryScale: '',
             annualLeave: '',
             overTime: '',
+            salary: '',
             touched: {
                 name: false,
                 doB: false,
@@ -39,6 +40,7 @@ class StaffList extends Component {
                 salaryScale: false,
                 annualLeave: false,
                 overTime: false,
+                salary: false
             },
         };
         this.handleSortChange = this.handleSortChange.bind(this);
@@ -88,7 +90,7 @@ class StaffList extends Component {
             department: this.state.department,
             annualLeave: this.state.annualLeave,
             overTime: this.state.overTime,
-            salary: 5000000,
+            salary: this.state.salary,
             image: '../assets/images/HarryPotter.jpg',
         };
         STAFFS.push(newStaff);
@@ -102,7 +104,7 @@ class StaffList extends Component {
         });
     };
 
-    validate(name, doB, startDate, department, salaryScale, annualLeave, overTime) {
+    validate(name, doB, startDate, department, salaryScale, annualLeave, overTime, salary) {
         const errors = {
             name: '',
             doB: '',
@@ -111,7 +113,9 @@ class StaffList extends Component {
             salaryScale: '',
             annualLeave: '',
             overTime: '',
+            salary: ''
         };
+
         if (this.state.touched.name && name.length < 3) {
             errors.name = 'Name should be >= 3 characters';
         } else if (this.state.touched.name && name.length > 20) {
@@ -124,9 +128,10 @@ class StaffList extends Component {
         if (this.state.touched.doB) {
             if (doB.length === 0) {
                 errors.doB = 'Day of Birth should not be empty';
-            } else if ((currentDate.getFullYear() - doB_object.getFullYear() < 18) || (currentDate.getFullYear() - doB_object.getFullYear() > 99)) {
-                errors.doB = 'Age of Staff should be > 18 and < 99';
             }
+            // } else if ((currentDate.getFullYear() - doB_object.getFullYear() < 18) || (currentDate.getFullYear() - doB_object.getFullYear() > 99)) {
+            //     errors.doB = 'Age of Staff should be > 18 and < 99';
+            // }
         }
 
         var startdate_parts = startDate.split('-');
@@ -160,6 +165,13 @@ class StaffList extends Component {
         } else if (this.state.touched.overTime && Number(overTime) <= 0) {
             errors.overTime = 'Over Time should be positive';
         }
+
+        if (this.state.touched.salary && salary.length === 0) {
+            errors.salary = 'Salary should not be empty';
+        } else if (this.state.touched.salary && Number(salary) <= 0) {
+            errors.salary = 'Salary should be positive';
+        }
+
         return errors;
     }
 
@@ -171,7 +183,8 @@ class StaffList extends Component {
             this.state.department,
             this.state.salaryScale,
             this.state.annualLeave,
-            this.state.overTime
+            this.state.overTime,
+            this.state.salary
         );
         var sortList = this.props.staffs.slice();
         if (this.state.sortOrder === 'nameAscending') {
@@ -253,7 +266,7 @@ class StaffList extends Component {
                             </FormGroup>
                         </Form>
                     </div>
-                    <div className="col-12 col-sm-4 col-lg-3 justify-content-center">
+                    <div className="col-12 col-sm-4 col-lg-3 justifycontentend">
                         <Button
                             onClick={this.toggleModal}
                             color="danger"
@@ -444,6 +457,33 @@ class StaffList extends Component {
                                         }></Input>
                                     <FormFeedback>
                                         {errors.overTime}
+                                    </FormFeedback>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="salary" xs={3}>
+                                    Salary(VND):
+                                </Label>
+                                <Col
+                                    xs={9}
+                                    className="d-inline-block align-top">
+                                    <Input
+                                        type="number"
+                                        id="salary"
+                                        min="500000"
+                                        step="100000"
+                                        name="salary"
+                                        className="w-100"
+                                        placeholder="salary"
+                                        valid={errors.salary === ''}
+                                        invalid={errors.salary !== ''}
+                                        onBlur={this.handleBlur('salary')}
+                                        value={this.state.salary}
+                                        onChange={
+                                            this.handleInputChange
+                                        }></Input>
+                                    <FormFeedback>
+                                        {errors.salary}
                                     </FormFeedback>
                                 </Col>
                             </FormGroup>
