@@ -4,7 +4,6 @@ import { Card, CardImg, CardTitle,
     Label, Input, Button, Col,
     Modal, ModalHeader, ModalBody} from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { STAFFS } from '../shared/staffs';
 
 function RenderStaffItem({ staff }) {
     return (
@@ -81,19 +80,25 @@ class StaffList extends Component {
     }
 
     handleAddStaff(event) {
-        const newStaff = {
-            id: STAFFS.length,
-            name: this.state.name,
-            doB: this.state.doB,
-            salaryScale: this.state.salaryScale,
-            startDate: this.state.startDate,
-            department: this.state.department,
-            annualLeave: this.state.annualLeave,
-            overTime: this.state.overTime,
-            salary: this.state.salary,
-            image: '../assets/images/HarryPotter.jpg',
-        };
-        STAFFS.push(newStaff);
+        if (this.state.name && this.state.doB && this.state.startDate && this.state.department 
+            && this.state.salaryScale && this.state.annualLeave && this.state.overTime && this.state.salary) {
+            const newStaff = {
+                id: this.props.staffs.length,
+                name: this.state.name,
+                doB: this.state.doB,
+                salaryScale: this.state.salaryScale,
+                startDate: this.state.startDate,
+                department: this.state.department,
+                annualLeave: this.state.annualLeave,
+                overTime: this.state.overTime,
+                salary: this.state.salary,
+                image: '../assets/images/HarryPotter.jpg',
+            };
+            Array.prototype.push.apply(this.props.staffs, [newStaff]);
+            localStorage.setItem('staffs', JSON.stringify(this.props.staffs));
+        } else {
+            alert('All field should not be empty!!!');
+        }
         event.preventDefault();
     }
 
@@ -128,10 +133,9 @@ class StaffList extends Component {
         if (this.state.touched.doB) {
             if (doB.length === 0) {
                 errors.doB = 'Day of Birth should not be empty';
+            } else if ((currentDate.getFullYear() - doB_object.getFullYear() < 18) || (currentDate.getFullYear() - doB_object.getFullYear() > 99)) {
+                errors.doB = 'Age of Staff should be > 18 and < 99';
             }
-            // } else if ((currentDate.getFullYear() - doB_object.getFullYear() < 18) || (currentDate.getFullYear() - doB_object.getFullYear() > 99)) {
-            //     errors.doB = 'Age of Staff should be > 18 and < 99';
-            // }
         }
 
         var startdate_parts = startDate.split('-');

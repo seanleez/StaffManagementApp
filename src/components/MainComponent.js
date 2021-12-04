@@ -20,8 +20,16 @@ class Main extends Component {
     }
 
     render() {
+        if (localStorage.getItem('staffs') !== null) {
+            let temp = JSON.parse(localStorage.getItem('staffs'));
+            for (let i = 0; i < temp.length; i++) {
+                if (this.state.staffs.some((ele) => ele.id === temp[i].id) === false) {
+                    this.state.staffs.push(temp[i]);
+                }
+            }
+        }
+
         const StaffWithId = ({match}) => {
-            console.log(this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10)))
             return(
                 <StaffDetail staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10))[0]} />
             )
