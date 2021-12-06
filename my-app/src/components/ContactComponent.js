@@ -11,12 +11,6 @@ const isNumber = (val) => !isNaN(Number(val));
 // check if "val" is not in RegEx
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val)
 
-var val = 'heh'
-if (isNaN(val)) {
-    console.log("true")
-} else {
-    console.log("false")
-}
 class Contact extends Component {
 
     constructor(props) {
