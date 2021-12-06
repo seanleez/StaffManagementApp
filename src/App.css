@@ -10,10 +10,6 @@ body {
     height: 60px;
 }
 
-input {
-    width: 55% !important;
-}
-
 div.card:hover {
     cursor: pointer;
 }

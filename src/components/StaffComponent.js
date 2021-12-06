@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardTitle,
-    Form, FormGroup, FormFeedback,
-    Label, Input, Button, Col,
-    Modal, ModalHeader, ModalBody} from 'reactstrap';
+    Label, Button, Col, Row,
+    Form, FormGroup, Input,
+    Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 
 function RenderStaffItem({ staff }) {
@@ -16,31 +17,30 @@ function RenderStaffItem({ staff }) {
     );
 }
 
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => !(val) || (val.length >= len);
+const positiveNumber = (val) => !(val) || (val > 0)
+const compareAge = (val) => {
+    var currentDate = new Date();
+    var val_parts = String(val).split('-');
+    var val_date = new Date(val_parts[0], val_parts[1] - 1, val_parts[2]);
+    return(!(val) || (currentDate.getFullYear() - val_date.getFullYear() > 18))
+}
+const compareCurrentDate = (val) => {
+    var currentDate = new Date();
+    var val_parts = String(val).split('-');
+    var val_date = new Date(val_parts[0], val_parts[1] - 1, val_parts[2]);
+    return(!(val) || (currentDate.getTime() > val_date.getTime()))
+}
+
 class StaffList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             sortOrder: 'nameAscending',
             findStaffName: '',
-            isModalOpen: false,
-            name: '',
-            doB: '',
-            startDate: '',
-            department: '',
-            salaryScale: '',
-            annualLeave: '',
-            overTime: '',
-            salary: '',
-            touched: {
-                name: false,
-                doB: false,
-                startDate: false,
-                department: false,
-                salaryScale: false,
-                annualLeave: false,
-                overTime: false,
-                salary: false
-            },
+            isModalOpen: false
         };
         this.handleSortChange = this.handleSortChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -48,10 +48,8 @@ class StaffList extends Component {
         // toggleModal
         this.toggleModal = this.toggleModal.bind(this);
         // Controlled Form
-        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleAddStaff = this.handleAddStaff.bind(this);
         // Validate Form
-        this.handleBlur = this.handleBlur.bind(this);
     }
 
     handleSortChange(e) {
@@ -71,125 +69,25 @@ class StaffList extends Component {
             isModalOpen: !this.state.isModalOpen,
         });
     }
-    // Controlled Form :
-    handleInputChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
-        });
-        event.preventDefault();
-    }
 
-    handleAddStaff(event) {
-        if (this.state.name && this.state.doB && this.state.startDate && this.state.department 
-            && this.state.salaryScale && this.state.annualLeave && this.state.overTime && this.state.salary) {
-            const newStaff = {
-                id: this.props.staffs.length,
-                name: this.state.name,
-                doB: this.state.doB,
-                salaryScale: this.state.salaryScale,
-                startDate: this.state.startDate,
-                department: this.state.department,
-                annualLeave: this.state.annualLeave,
-                overTime: this.state.overTime,
-                salary: this.state.salary,
-                image: '../assets/images/HarryPotter.jpg',
-            };
-            Array.prototype.push.apply(this.props.staffs, [newStaff]);
-            localStorage.setItem('staffs', JSON.stringify(this.props.staffs));
-        } else {
-            alert('All field should not be empty!!!');
-        }
-        event.preventDefault();
-    }
-
-    // Validate Form
-    handleBlur = (field) => (event) => {
-        this.setState({
-            touched: { ...this.state.touched, [field]: true },
-        });
-    };
-
-    validate(name, doB, startDate, department, salaryScale, annualLeave, overTime, salary) {
-        const errors = {
-            name: '',
-            doB: '',
-            startDate: '',
-            department: '',
-            salaryScale: '',
-            annualLeave: '',
-            overTime: '',
-            salary: ''
+    handleAddStaff(values) {
+        const newStaff = {
+            id: this.props.staffs.length,
+            name: values.name,
+            doB: values.doB,
+            salaryScale: Number(values.salaryScale),
+            startDate: values.startDate,
+            department: values.department,
+            annualLeave: Number(values.annualLeave),
+            overTime: Number(values.overTime),
+            salary: Number(values.salary),
+            image: '../assets/images/HarryPotter.jpg',
         };
-
-        if (this.state.touched.name && name.length < 3) {
-            errors.name = 'Name should be >= 3 characters';
-        } else if (this.state.touched.name && name.length > 20) {
-            errors.name = 'Name should be <= 20 characters';
-        }
-
-        var currentDate = new Date();
-        var doB_parts = doB.split('-');
-        var doB_object = new Date(doB_parts[0], doB_parts[1] - 1, doB_parts[2]);
-        if (this.state.touched.doB) {
-            if (doB.length === 0) {
-                errors.doB = 'Day of Birth should not be empty';
-            } else if ((currentDate.getFullYear() - doB_object.getFullYear() < 18) || (currentDate.getFullYear() - doB_object.getFullYear() > 99)) {
-                errors.doB = 'Age of Staff should be > 18 and < 99';
-            }
-        }
-
-        var startdate_parts = startDate.split('-');
-        var startdate_object = new Date(startdate_parts[0], startdate_parts[1] - 1, startdate_parts[2]);
-        if (this.state.touched.startDate) {
-            if (startDate.length === 0) {
-                errors.startDate = 'Start Day should not be empty';
-            } else if (startdate_object.getTime() > currentDate.getTime()) {
-                errors.startDate = 'Start Day should be smaller than Current Day';
-            }
-        }
-
-        if (this.state.touched.department && department.length === 0) {
-            errors.department = 'Choose one from above departments';
-        }
-
-        if (this.state.touched.salaryScale && salaryScale.length === 0) {
-            errors.salaryScale = 'Salary Scale should not be empty';
-        } else if (this.state.touched.salaryScale && Number(salaryScale) <= 0) {
-            errors.salaryScale = 'Salary Scale should be positive';
-        }
-
-        if (this.state.touched.annualLeave && annualLeave.length === 0) {
-            errors.annualLeave = 'Annual Leave should not be empty';
-        } else if (this.state.touched.annualLeave && Number(annualLeave) <= 0) {
-            errors.annualLeave = 'Annual Leave should be positive';
-        }
-
-        if (this.state.touched.overTime && overTime.length === 0) {
-            errors.overTime = 'Over Time should not be empty';
-        } else if (this.state.touched.overTime && Number(overTime) <= 0) {
-            errors.overTime = 'Over Time should be positive';
-        }
-
-        if (this.state.touched.salary && salary.length === 0) {
-            errors.salary = 'Salary should not be empty';
-        } else if (this.state.touched.salary && Number(salary) <= 0) {
-            errors.salary = 'Salary should be positive';
-        }
-
-        return errors;
+        Array.prototype.push.apply(this.props.staffs, [newStaff]);
+        localStorage.setItem('staffs', JSON.stringify(this.props.staffs));
     }
 
     render() {
-        const errors = this.validate(
-            this.state.name,
-            this.state.doB,
-            this.state.startDate,
-            this.state.department,
-            this.state.salaryScale,
-            this.state.annualLeave,
-            this.state.overTime,
-            this.state.salary
-        );
         var sortList = this.props.staffs.slice();
         if (this.state.sortOrder === 'nameAscending') {
             sortList.sort((a, b) => {
@@ -255,7 +153,7 @@ class StaffList extends Component {
                                     type="text"
                                     id="findstaff"
                                     name="findstaff"
-                                    className="d-inline-block mx-2"
+                                    className="d-inline-block mx-2 w-50"
                                     innerRef={(input) =>
                                         (this.findstaff = input)
                                     }
@@ -290,216 +188,181 @@ class StaffList extends Component {
                         Add Staff
                     </ModalHeader>
                     <ModalBody>
-                        <Form onSubmit={this.handleAddStaff}>
-                            <FormGroup>
-                                <Label htmlFor="name" xs={3}>
-                                    Name:
-                                </Label>
-                                <Col
-                                    xs={9}
-                                    className="d-inline-block align-top">
-                                    <Input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        className="w-100"
-                                        placeholder="name"
-                                        value={this.state.name}
-                                        valid={errors.name === ''}
-                                        invalid={errors.name !== ''}
-                                        onBlur={this.handleBlur('name')}
-                                        onChange={
-                                            this.handleInputChange
-                                        }></Input>
-                                    <FormFeedback>{errors.name}</FormFeedback>
+                        <LocalForm onSubmit={(values) => {this.handleAddStaff(values)}}>
+                            <Row className="form-group">
+                                <Label htmlFor="name" xs={4} md={3}>Name:</Label>
+                                <Col xs={8} md={9}>
+                                    <Control.text model=".name" id="name" name="name"
+                                        defaultValue=""
+                                        className="form-control"
+                                        validators={{
+                                            required, minLength: minLength(3), maxLength: maxLength(20)
+                                        }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".name"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Name should not be empty.',
+                                            minLength: ' Name must be greater than 2 characters.',
+                                            maxLength: ' Name must be less than 20 characters.'
+                                        }}
+                                    />
                                 </Col>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="doB" xs={3}>
-                                    Day of Birth:
-                                </Label>
-                                <Col
-                                    xs={9}
-                                    className="d-inline-block align-top">
-                                    <Input
-                                        type="date"
-                                        id="doB"
-                                        name="doB"
-                                        className="w-100"
-                                        value={this.state.doB}
-                                        valid={errors.doB === ''}
-                                        invalid={errors.doB !== ''}
-                                        onBlur={this.handleBlur('doB')}
-                                        onChange={
-                                            this.handleInputChange
-                                        }></Input>
-                                    <FormFeedback>{errors.doB}</FormFeedback>
+                            </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="doB" xs={4} md={3}>Day of Birth:</Label>
+                                <Col xs={8} md={9}>
+                                    <Control type="date" model=".doB" id="doB" name="doB" 
+                                        defaultValue=""
+                                        className="form-control"
+                                        validators={{
+                                            required, compareAge
+                                        }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".doB"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Day of birth should not be empty.',
+                                            compareAge: ' Age of Staff should be > 18.'
+                                        }}
+                                    />
                                 </Col>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="startDate" xs={3}>
-                                    Start Date:
-                                </Label>
-                                <Col
-                                    xs={9}
-                                    className="d-inline-block align-top">
-                                    <Input
-                                        type="date"
-                                        id="startDate"
-                                        name="startDate"
-                                        className="w-100"
-                                        value={this.state.startDate}
-                                        valid={errors.startDate === ''}
-                                        invalid={errors.startDate !== ''}
-                                        onBlur={this.handleBlur('startDate')}
-                                        onChange={
-                                            this.handleInputChange
-                                        }></Input>
-                                    <FormFeedback>
-                                        {errors.startDate}
-                                    </FormFeedback>
+                            </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="startDate" xs={4} md={3}>Start Date:</Label>
+                                <Col xs={8} md={9}>
+                                    <Control type="date" model=".startDate" id="startDate" name="startDate" 
+                                        defaultValue=""
+                                        className="form-control"
+                                        validators={{
+                                            required, compareCurrentDate
+                                        }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".startDate"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Start Day should not be empty.',
+                                            compareCurrentDate: 'Start Day should be smaller than Current Day.'
+                                        }}
+                                    />
                                 </Col>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="department" xs={3}>
-                                    Deparment:
-                                </Label>
-                                <Col
-                                    xs={9}
-                                    className="d-inline-block align-top">
-                                    <Input
-                                        type="select"
-                                        id="department"
-                                        name="department"
+                            </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="department" xs={4} md={3}>Department:</Label>
+                                <Col xs={8} md={9}>
+                                    <Control.select model=".department" id="department" name="department"
                                         className="form-select"
-                                        value={this.state.department}
-                                        valid={errors.department === ''}
-                                        invalid={errors.department !== ''}
-                                        onBlur={this.handleBlur('department')}
-                                        onChange={this.handleInputChange}>
+                                        validators={{
+                                            required
+                                        }} >
                                         <option defaultValue hidden>--Department--</option>
                                         <option>Sale</option>
                                         <option>HR</option>
                                         <option>Marketing</option>
                                         <option>IT</option>
                                         <option>Finance</option>
-                                    </Input>
-                                    <FormFeedback>
-                                        {errors.department}
-                                    </FormFeedback>
+                                    </Control.select>
+                                    <Errors
+                                        className="text-danger"
+                                        model=".department"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Please choose one from departments above.',
+                                        }}
+                                    />
                                 </Col>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="salaryScale" xs={3}>
-                                    Salary Scale:
-                                </Label>
-                                <Col
-                                    xs={9}
-                                    className="d-inline-block align-top">
-                                    <Input
-                                        type="number"
-                                        id="salaryScale"
-                                        name="salaryScale"
-                                        className="w-100"
-                                        placeholder="salaryScale"
-                                        valid={errors.salaryScale === ''}
-                                        invalid={errors.salaryScale !== ''}
-                                        onBlur={this.handleBlur('salaryScale')}
-                                        value={this.state.salaryScale}
-                                        onChange={
-                                            this.handleInputChange
-                                        }></Input>
-                                    <FormFeedback>
-                                        {errors.salaryScale}
-                                    </FormFeedback>
+                            </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="salaryScale" xs={4} md={3}>Salary Scale:</Label>
+                                <Col xs={8} md={9}>
+                                    <Control type="number" model=".salaryScale" id="salaryScale" name="salaryScale"
+                                        defaultValue=""
+                                        className="form-control"
+                                        validators={{
+                                            required, positiveNumber
+                                        }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".salaryScale"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Salary Scale should not be empty.',
+                                            positiveNumber: 'Salary Scale should be positive.'
+                                        }}
+                                    />
                                 </Col>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="annualLeave" xs={3}>
-                                    Annual Leave:
-                                </Label>
-                                <Col
-                                    xs={9}
-                                    className="d-inline-block align-top">
-                                    <Input
-                                        type="number"
-                                        id="annualLeave"
-                                        name="annualLeave"
-                                        className="w-100"
-                                        placeholder="annualLeave"
-                                        valid={errors.annualLeave === ''}
-                                        invalid={errors.annualLeave !== ''}
-                                        onBlur={this.handleBlur('annualLeave')}
-                                        value={this.state.annualLeave}
-                                        onChange={
-                                            this.handleInputChange
-                                        }></Input>
-                                    <FormFeedback>
-                                        {errors.annualLeave}
-                                    </FormFeedback>
+                            </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="annualLeave" xs={4} md={3}>Annual Leave:</Label>
+                                <Col xs={8} md={9}>
+                                    <Control type="number" model=".annualLeave" id="annualLeave" name="annualLeave"
+                                        defaultValue=""
+                                        className="form-control"
+                                        validators={{
+                                            required, positiveNumber
+                                        }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".annualLeave"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Annual Leave should not be empty.',
+                                            positiveNumber: 'Annual Leave should be positive.'
+                                        }}
+                                    />
                                 </Col>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="overTime" xs={3}>
-                                    Over Time:
-                                </Label>
-                                <Col
-                                    xs={9}
-                                    className="d-inline-block align-top">
-                                    <Input
-                                        type="number"
-                                        id="overTime"
-                                        name="overTime"
-                                        className="w-100"
-                                        placeholder="overTime"
-                                        valid={errors.overTime === ''}
-                                        invalid={errors.overTime !== ''}
-                                        onBlur={this.handleBlur('overTime')}
-                                        value={this.state.overTime}
-                                        onChange={
-                                            this.handleInputChange
-                                        }></Input>
-                                    <FormFeedback>
-                                        {errors.overTime}
-                                    </FormFeedback>
+                            </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="overTime" xs={4} md={3}>Over Time:</Label>
+                                <Col xs={8} md={9}>
+                                    <Control type="number" model=".overTime" id="overTime" name="overTime"
+                                        defaultValue=""
+                                        className="form-control"
+                                        validators={{
+                                            required, positiveNumber
+                                        }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".overTime"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Over Time should not be empty.',
+                                            positiveNumber: 'Over Time should be positive.'
+                                        }}
+                                    />
                                 </Col>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="salary" xs={3}>
-                                    Salary(VND):
-                                </Label>
-                                <Col
-                                    xs={9}
-                                    className="d-inline-block align-top">
-                                    <Input
-                                        type="number"
-                                        id="salary"
-                                        min="500000"
-                                        step="100000"
-                                        name="salary"
-                                        className="w-100"
-                                        placeholder="salary"
-                                        valid={errors.salary === ''}
-                                        invalid={errors.salary !== ''}
-                                        onBlur={this.handleBlur('salary')}
-                                        value={this.state.salary}
-                                        onChange={
-                                            this.handleInputChange
-                                        }></Input>
-                                    <FormFeedback>
-                                        {errors.salary}
-                                    </FormFeedback>
+                            </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="salary" xs={4} md={3}>Salary(VND):</Label>
+                                <Col xs={8} md={9}>
+                                    <Control type="number" model=".salary" id="salary" name="salary"
+                                        defaultValue=""
+                                        min={500000}
+                                        step={100000}
+                                        className="form-control"
+                                        validators={{
+                                            required, positiveNumber
+                                        }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".salary"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Salary should not be empty.',
+                                            positiveNumber: 'Salary should be positive.'
+                                        }}
+                                    />
                                 </Col>
-                            </FormGroup>
-                            <FormGroup>
-                                <Button
-                                    type="submit"
-                                    value="submit"
-                                    color="primary">
-                                    Add Staff
+                            </Row>
+                            <Row className="form-group w-25 mx-auto my-1">
+                                <Button type="submit" value="submit" color="primary">
+                                    <b>ADD STAFF</b>
                                 </Button>
-                            </FormGroup>
-                        </Form>
+                            </Row>
+                        </LocalForm>
                     </ModalBody>
                 </Modal>
                 <hr />
