@@ -292,7 +292,7 @@ class StaffList extends Component {
                     <ModalBody>
                         <Form onSubmit={this.handleAddStaff}>
                             <FormGroup>
-                                <Label htmlFor="name" xs={3}>
+                                <Label htmlFor="name" xs={4} md={3}>
                                     Name:
                                 </Label>
                                 <Col
@@ -315,7 +315,7 @@ class StaffList extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor="doB" xs={3}>
+                                <Label htmlFor="doB" xs={4} md={3}>
                                     Day of Birth:
                                 </Label>
                                 <Col
@@ -337,7 +337,7 @@ class StaffList extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor="startDate" xs={3}>
+                                <Label htmlFor="startDate" xs={4} md={3}>
                                     Start Date:
                                 </Label>
                                 <Col
@@ -361,7 +361,7 @@ class StaffList extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor="department" xs={3}>
+                                <Label htmlFor="department" xs={4} md={3}>
                                     Deparment:
                                 </Label>
                                 <Col
@@ -390,7 +390,7 @@ class StaffList extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor="salaryScale" xs={3}>
+                                <Label htmlFor="salaryScale" xs={4} md={3}>
                                     Salary Scale:
                                 </Label>
                                 <Col
@@ -415,7 +415,7 @@ class StaffList extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor="annualLeave" xs={3}>
+                                <Label htmlFor="annualLeave" xs={4} md={3}>
                                     Annual Leave:
                                 </Label>
                                 <Col
@@ -440,7 +440,7 @@ class StaffList extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor="overTime" xs={3}>
+                                <Label htmlFor="overTime" xs={4} md={3}>
                                     Over Time:
                                 </Label>
                                 <Col
@@ -465,7 +465,7 @@ class StaffList extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor="salary" xs={3}>
+                                <Label htmlFor="salary" xs={4} md={3}>
                                     Salary(VND):
                                 </Label>
                                 <Col
