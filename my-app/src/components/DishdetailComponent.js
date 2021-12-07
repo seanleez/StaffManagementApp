@@ -24,7 +24,7 @@ function RenderDish({dish}) {
     )
 }
 
-function RenderComments({comments}) {
+function RenderComments({comments, addComment, dishId}) {
     if (comments != null) {
         return(
             <div className="col-12 m-1">
@@ -39,6 +39,7 @@ function RenderComments({comments}) {
                         );
                     })}
                 </ul>
+                <CommentForm dishId={dishId} addComment={addComment} />
             </div>
         );
     } else {
@@ -48,7 +49,7 @@ function RenderComments({comments}) {
     }
 }
 
-class LeaveComment extends Component {
+class CommentForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,7 +65,9 @@ class LeaveComment extends Component {
     }
 
     handleSubmitComment(values) {
-        alert(JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        console.log(values);
     }
 
     render() {
@@ -103,17 +106,17 @@ class LeaveComment extends Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Label htmlFor="username">User Name:</Label>
+                                <Label htmlFor="author">Author:</Label>
                                 <Col md={12}>
-                                    <Control.text model=".username" id="username" name="username"
-                                        placeholder="UserName"
+                                    <Control.text model=".author" id="author" name="author"
+                                        placeholder="Your name"
                                         className="form-control"
                                         validators={{
                                             required, minLength: minLength(3), maxLength: maxLength(15)
                                         }} />
                                     <Errors 
                                         className="text-danger" 
-                                        model=".username"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
@@ -174,8 +177,9 @@ const DishDetail = (props) => {
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comments} />
-                        <LeaveComment />
+                        <RenderComments comments={props.comments}
+                            addComment={props.addComment}
+                            dishId={props.dish.id} />
                     </div>
                 </div>
             </div>
