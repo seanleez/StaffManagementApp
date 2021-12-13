@@ -25,7 +25,7 @@ const compareAge = (val) => {
     var currentDate = new Date();
     var val_parts = String(val).split('-');
     var val_date = new Date(val_parts[0], val_parts[1] - 1, val_parts[2]);
-    return(!(val) || (currentDate.getFullYear() - val_date.getFullYear() > 18))
+    return(!(val) || (currentDate.getFullYear() - val_date.getFullYear() > 0))
 }
 const compareCurrentDate = (val) => {
     var currentDate = new Date();
@@ -71,20 +71,23 @@ class StaffList extends Component {
     }
 
     handleAddStaff(values) {
-        const newStaff = {
-            id: this.props.staffs.length,
-            name: values.name,
-            doB: values.doB,
-            salaryScale: Number(values.salaryScale),
-            startDate: values.startDate,
-            department: values.department,
-            annualLeave: Number(values.annualLeave),
-            overTime: Number(values.overTime),
-            salary: Number(values.salary),
-            image: '../assets/images/HarryPotter.jpg',
-        };
-        Array.prototype.push.apply(this.props.staffs, [newStaff]);
-        localStorage.setItem('staffs', JSON.stringify(this.props.staffs));
+        // const newStaff = {
+        //     id: this.props.staffs.length,
+        //     name: values.name,
+        //     doB: values.doB,
+        //     salaryScale: Number(values.salaryScale),
+        //     startDate: values.startDate,
+        //     department: values.department,
+        //     annualLeave: Number(values.annualLeave),
+        //     overTime: Number(values.overTime),
+        //     salary: Number(values.salary),
+        //     image: '../assets/images/HarryPotter.jpg',
+        // };
+        // Array.prototype.push.apply(this.props.staffs, [newStaff]);
+        // localStorage.setItem('staffs', JSON.stringify(this.props.staffs));
+        this.toggleModal();
+        this.props.addStaff(values.name, values.doB, Number(values.salaryScale), values.startDate, values.department, Number(values.annualLeave), Number(values.overTime), values.image);
+        console.log(values);
     }
 
     render() {

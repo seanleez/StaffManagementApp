@@ -7,6 +7,7 @@ import Salary from './SalaryComponent';
 import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
+import { addStaff } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -15,16 +16,21 @@ const mapStateToProps = state => {
         staffs: state.staffs
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    addStaff: (name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image) => dispatch(addStaff(name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image))
+});
+
 class Main extends Component {
     render() {
-        if (localStorage.getItem('staffs') !== null) {
-            let temp = JSON.parse(localStorage.getItem('staffs'));
-            for (let i = 0; i < temp.length; i++) {
-                if (this.props.staffs.some((ele) => ele.id === temp[i].id) === false) {
-                    this.props.staffs.push(temp[i]);
-                }
-            }
-        }
+        // if (localStorage.getItem('staffs') !== null) {
+        //     let temp = JSON.parse(localStorage.getItem('staffs'));
+        //     for (let i = 0; i < temp.length; i++) {
+        //         if (this.props.staffs.some((ele) => ele.id === temp[i].id) === false) {
+        //             this.props.staffs.push(temp[i]);
+        //         }
+        //     }
+        // }
         
         const StaffWithId = ({match}) => {
             return(
@@ -36,7 +42,7 @@ class Main extends Component {
             <div>
                 <Header />
                 <Switch>
-                    <Route exact path="/staff" component={() => <StaffList staffs={this.props.staffs}/>} />
+                    <Route exact path="/staff" component={() => <StaffList staffs={this.props.staffs} addStaff={this.props.addStaff} />} />
                     <Route path="/staff/:staffId" component={StaffWithId} />
                     <Route path="/department" component={() => <Department departments={this.props.departments} />} />
                     <Route path="/salary" component={() => <Salary salaryItems={this.props.staffs}/>} />
@@ -48,5 +54,5 @@ class Main extends Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
 
