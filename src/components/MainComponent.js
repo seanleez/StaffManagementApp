@@ -7,7 +7,8 @@ import Salary from './SalaryComponent';
 import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { addStaff } from '../redux/ActionCreators';
+import { addStaff, fetchStaffs } from '../redux/ActionCreators';
+import { actions } from 'react-redux-form';
 
 const mapStateToProps = state => {
     return {
@@ -18,31 +19,44 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    addStaff: (name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image) => dispatch(addStaff(name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image))
+    addStaff: (id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image) => dispatch(addStaff(id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image)),
+    fetchStaffs: () => {dispatch(fetchStaffs())},
+    resetStaffInforForm: () => {dispatch(actions.reset('staffinfor'))}
 });
 
 class Main extends Component {
+
+    componentDidMount() {
+        this.props.fetchStaffs();
+    }
+
     render() {
-        // if (localStorage.getItem('staffs') !== null) {
-        //     let temp = JSON.parse(localStorage.getItem('staffs'));
-        //     for (let i = 0; i < temp.length; i++) {
-        //         if (this.props.staffs.some((ele) => ele.id === temp[i].id) === false) {
-        //             this.props.staffs.push(temp[i]);
-        //         }
-        //     }
-        // }
-        
+
+        const HomePageStaffList = () => {
+            return(
+                <StaffList 
+                    staffs={this.props.staffs}
+                    addStaff={this.props.addStaff}
+                    resetStaffInforForm={this.props.resetStaffInforForm}
+                />
+            )
+        }
         const StaffWithId = ({match}) => {
             return(
-                <StaffDetail staff={this.props.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10))[0]} />
+                <StaffDetail 
+                    staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10))[0]} 
+                    isLoading={this.props.staffs.isLoading}
+                    errMess={this.props.staffs.errMess}
+                />
             )
         };
-        
+
         return (
             <div>
                 <Header />
                 <Switch>
-                    <Route exact path="/staff" component={() => <StaffList staffs={this.props.staffs} addStaff={this.props.addStaff} />} />
+                    {/* <Route exact path="/staff" component={() => <StaffList staffs={this.props.staffs} addStaff={this.props.addStaff} />} /> */}
+                    <Route exact path="/staff" component={HomePageStaffList} />
                     <Route path="/staff/:staffId" component={StaffWithId} />
                     <Route path="/department" component={() => <Department departments={this.props.departments} />} />
                     <Route path="/salary" component={() => <Salary salaryItems={this.props.staffs}/>} />

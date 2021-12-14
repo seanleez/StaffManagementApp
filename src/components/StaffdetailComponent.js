@@ -2,6 +2,7 @@ import React from 'react';
 import { Media, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import dateFormat from 'dateformat'
+import { Loading } from './LoadingComponent';
 
 function RenderStaff({ staff }) {
     return(
@@ -26,7 +27,25 @@ function RenderStaff({ staff }) {
 }
 
 const StaffDetail = (props) => {
-    if (props.staff != null) {
+    if (props.isLoading) {
+        return(
+            <div className="container">
+                <div className="row height-60"></div>
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        );
+    } else if (props.errMess) {
+        return(
+            <div className="container">
+                <div className="row height-60"></div>
+                <div className="row">
+                    <h3>{props.errMess}</h3>
+                </div>
+            </div>
+        )
+    } else if (props.staff != null) {
         return(
             <div className="container">
                 <div className="row height-60"></div>
