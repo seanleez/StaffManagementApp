@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import dateFormat from 'dateformat'
 import { Loading } from './LoadingComponent';
 
-function RenderStaff({ staff }) {
+function RenderStaff({ staff, department }) {
     return(
         <Media className="mb-3">
             <div className="col-12 col-sm-3 col-md-4 d-inline-block position-relative align-top m-0">
@@ -17,7 +17,7 @@ function RenderStaff({ staff }) {
                     <Media heading>{staff.name}</Media>
                     <p>Day of Birth: {dateFormat(staff.doB, "dd, mm, yyyy")}</p>
                     <p>Start Day: {dateFormat(staff.startDay, "dd, mm, yyyy")}</p>
-                    <p>Department: {typeof(staff.department) === 'string' ? staff.department : staff.department.name}</p>
+                    <p>Department: {department.name}</p>
                     <p>Annual Leave: {staff.annualLeave}</p>
                     <p>Over Time: {staff.overTime}</p>
                 </Media>
@@ -60,7 +60,7 @@ const StaffDetail = (props) => {
                     </div>                
                 </div>
                 <div className="row">
-                    <RenderStaff staff={props.staff} />
+                    <RenderStaff staff={props.staff} department={props.department}/>
                 </div>
             </div>
         )

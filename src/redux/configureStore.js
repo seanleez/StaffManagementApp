@@ -5,12 +5,14 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { createForms } from 'react-redux-form';
 import { InitialStaffInfor } from './form';
+import { StaffsSalary } from './staffsSalary';
 
 export const ConfigureStore = () => {
     const store = createStore(
         combineReducers({
             staffs: Staffs,
             departments: Departments,
+            staffsSalary: StaffsSalary,
             ...createForms({
                 staffinfor: InitialStaffInfor
             })

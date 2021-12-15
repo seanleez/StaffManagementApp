@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardTitle,
     Label, Button, Col, Row,
-    FormGroup, Input,
-    Modal, ModalHeader, ModalBody } from 'reactstrap';
-import { Control, Form, Errors, actions } from 'react-redux-form';
+    Input,Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Control, Form, Errors} from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 
@@ -11,13 +10,14 @@ function RenderStaffItem({ staff }) {
     return (
         <Link to={`/staff/${staff.id}`}>
             <Card className="text-center">
-                <CardImg src={staff.image} />
+                <CardImg src={staff.image} alt={staff.name}/>
                 <CardTitle className="mt-2">{staff.name}</CardTitle>
             </Card>
         </Link>
     );
 }
 
+// For validate form purpose
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => !(val) || (val.length >= len);
@@ -36,9 +36,7 @@ const compareCurrentDate = (val) => {
 }
 
 class StaffList extends Component {
-    componentDidMount() {
-        console.log(this.props.staffs)
-    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -152,7 +150,7 @@ class StaffList extends Component {
                     <div className="row d-flex align-items-center">
                         <div className="col-12 col-sm-12 col-lg-4 d-flex align-items-center">
                             <span>
-                                <i>SortStaff: </i>
+                                <i>SortStaff:</i>
                             </span>
                             <select
                                 onChange={this.handleSortChange}
@@ -168,32 +166,32 @@ class StaffList extends Component {
                                 </option>
                             </select>
                         </div>
-                        {/* <div className="col-12 col-sm-8 col-lg-5 my-2">
-                            <Form onSubmit={this.handleSearch} className="w-100">
-                                <FormGroup>
-                                    <Label htmlFor="findstaff">
-                                        <i>FindStaff:</i>
-                                    </Label>
+                        
+                        <div className="col-12 col-sm-12 col-lg-4 my-2">
+                            <div>
+                                <Label htmlFor="findstaff">
+                                    <i>FindStaff:</i>
+                                </Label>
+                                <div className='d-inline-block'>
                                     <Input
                                         type="text"
                                         id="findstaff"
                                         name="findstaff"
-                                        className="d-inline-block mx-2 w-50"
+                                        className="w-75 d-inline-block mx-1"
                                         innerRef={(input) =>
                                             (this.findstaff = input)
                                         }
                                     />
-                                    <Button
-                                        type="submit"
-                                        value="submit"
-                                        color="primary"
-                                        className="px-2 mb-1">
+                                    <Button type="button" value="button" color="primary"
+                                        className="px-2 mb-1 mx-2"
+                                        onClick={this.handleSearch}>
                                         <span className="fa fa-search fa-lg"></span>
                                     </Button>
-                                </FormGroup>
-                            </Form>
-                        </div> */}
-                        <div className="col-12 col-sm-4 col-lg-3 justifycontentend">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12 col-sm-12 col-lg-4 d-flex justifycontentend">
                             <Button
                                 onClick={this.toggleModal}
                                 color="danger"
@@ -201,6 +199,7 @@ class StaffList extends Component {
                                 <span className="fa fa-plus fa-lg"></span>{' '}
                                 <b>ADD STAFF</b>
                             </Button>
+                            
                         </div>
                     </div>
     
@@ -391,6 +390,7 @@ class StaffList extends Component {
                         </ModalBody>
                     </Modal>
                     <hr />
+                    <h5>Number of Staff(s): {staffList.length}</h5>
                     <div className="row">{staffList}</div>
                 </div>
             );

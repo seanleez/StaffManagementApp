@@ -46,7 +46,7 @@ class Salary extends Component {
 
     render() {
         // Use slice method for clone an array
-        var sortList = this.handleSortList(this.props.salaryItems.staffs.slice());
+        var sortList = this.handleSortList(this.props.staffsSalary.staffsSalary.slice());
         const salaryItemList = sortList.map((salaryItem) => {
             return(
                 <div key={salaryItem.id} className="col-12 col-sm-6 col-lg-4 p-2">
@@ -55,7 +55,7 @@ class Salary extends Component {
             );
         })
 
-        if (this.props.salaryItems.isLoading) {
+        if (this.props.staffsSalary.isLoading) {
             return(
                 <div className='container'>
                     <div className="row height-60"></div>
@@ -64,13 +64,13 @@ class Salary extends Component {
                     </div>
                 </div>
             )
-        } else if (this.props.salaryItems.errMess) {
+        } else if (this.props.staffsSalary.errMess) {
             return(
                 <div className='container'>
                     <div className="row height-60"></div>
                     <div className='row'>
                         <div className='col-12'>
-                            <h3>{this.props.salaryItem.errMess}</h3>
+                            <h3>{this.props.staffsSalary.errMess}</h3>
                         </div>
                     </div>
                 </div>
