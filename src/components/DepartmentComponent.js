@@ -26,7 +26,7 @@ const Department = (props) => {
     if (props.departments.isLoading) {
         return(
             <div className='container'>
-                <div className="row height-60"></div>
+                <div className="row height-void"></div>
                 <div className='row'>
                     <Loading />
                 </div>
@@ -35,7 +35,7 @@ const Department = (props) => {
     } else if (props.departments.errMess) {
         return(
             <div className='container'>
-                <div className="row height-60"></div>
+                <div className="row height-void"></div>
                 <div className='row'>
                     <div className='col-12'>
                         <h3>{props.departments.errMess}</h3>
@@ -46,7 +46,7 @@ const Department = (props) => {
     } else {
         return(
             <div className="container mb-3">
-                <div className="row height-60"></div>
+                <div className="row height-void"></div>
                 <div className="row mt-2">
                     <Breadcrumb className="mx-2">
                         <BreadcrumbItem><Link to="/staff">Staff</Link></BreadcrumbItem>

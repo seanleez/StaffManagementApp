@@ -24,8 +24,9 @@ class Header extends Component {
                 <Navbar dark expand="lg" className="fixed-top">
                     <div className="container">
                         <NavbarToggler onClick={this.toggleNav} />
-                        <NavbarBrand className="mr-auto" href="/">
-                            <h5>Staff Management Application</h5>
+                        <NavbarBrand className="mr-auto d-flex align-items-center" href="/">
+                            <span><i className="fa fa-id-card fa-2x" aria-hidden="true"></i></span>
+                            <h5 className='d-inline-block mb-0 mx-2'>Staff Management App</h5>
                         </NavbarBrand>
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                             <Nav navbar>

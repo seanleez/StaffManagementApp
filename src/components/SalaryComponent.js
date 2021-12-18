@@ -12,7 +12,9 @@ function RenderSalaryItem({salaryItem}) {
             <CardText className="offset-1">Salary Scale: <i>{salaryItem.salaryScale}</i></CardText>
             <CardText className="offset-1">Overtime: <i>{salaryItem.overTime}</i></CardText>
             <div className="text-center border border-3 mx-4 mb-2">
-                <CardText className="py-1">Salary: <i>{salaryItem.salary} VND</i></CardText>
+                <CardText className="py-1">
+                    Salary: <i>{salaryItem.salary.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} VND</i>
+                </CardText>
             </div>
         </Card>
     )
@@ -58,7 +60,7 @@ class Salary extends Component {
         if (this.props.staffsSalary.isLoading) {
             return(
                 <div className='container'>
-                    <div className="row height-60"></div>
+                    <div className="row height-void"></div>
                     <div className='row'>
                         <Loading />
                     </div>
@@ -67,7 +69,7 @@ class Salary extends Component {
         } else if (this.props.staffsSalary.errMess) {
             return(
                 <div className='container'>
-                    <div className="row height-60"></div>
+                    <div className="row height-void"></div>
                     <div className='row'>
                         <div className='col-12'>
                             <h3>{this.props.staffsSalary.errMess}</h3>
@@ -78,7 +80,7 @@ class Salary extends Component {
         } else {
             return(
                 <div className="container mb-3">
-                    <div className="row height-60"></div>
+                    <div className="row height-void"></div>
                     <div className="row mt-2">
                         <Breadcrumb className="mx-2">
                             <BreadcrumbItem><Link to="/staff">Staff</Link></BreadcrumbItem>
@@ -102,9 +104,8 @@ class Salary extends Component {
                             <hr />
                         </div>
                     </div>
-                    <div className="row">
-                        {salaryItemList}
-                    </div>
+                    <h5>Number of Staff(s): {salaryItemList.length}</h5>
+                    <div className="row">{salaryItemList}</div>
                 </div>
             );
         }

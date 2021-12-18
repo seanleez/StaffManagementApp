@@ -8,7 +8,7 @@ import Salary from './SalaryComponent';
 import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { addStaff, fetchStaffs, fetchDepartments, fetchStaffsSalary } from '../redux/ActionCreators';
+import { postStaff, fetchStaffs, fetchDepartments, fetchStaffsSalary, fetchDelStaffs, fetchUpdateStaffs } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 
 const mapStateToProps = state => {
@@ -20,11 +20,15 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    addStaff: (id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image) => dispatch(addStaff(id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image)),
+    postStaff: (name, doB, salaryScale, startDate, departmentId, annualLeave, overTime) => dispatch(postStaff(name, doB, salaryScale, startDate, departmentId, annualLeave, overTime)),
     fetchStaffs: () => {dispatch(fetchStaffs())},
     resetStaffInforForm: () => {dispatch(actions.reset('staffinfor'))},
+    resetStaffModifyForm: () => {dispatch(actions.reset('staffmodifyform'))},
     fetchDepartments: () => {dispatch(fetchDepartments())},
-    fetchStaffsSalary: () => {dispatch(fetchStaffsSalary())}
+    fetchStaffsSalary: () => {dispatch(fetchStaffsSalary())},
+
+    fetchDelStaffs: (id) => (dispatch(fetchDelStaffs(id))),
+    fetchUpdateStaffs: (id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime) => dispatch(fetchUpdateStaffs(id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime)),
 });
 
 class Main extends Component {
@@ -41,8 +45,11 @@ class Main extends Component {
             return(
                 <StaffList 
                     staffs={this.props.staffs}
-                    addStaff={this.props.addStaff}
+                    postStaff={this.props.postStaff}
+                    fetchDelStaffs={this.props.fetchDelStaffs}
+                    fetchUpdateStaffs={this.props.fetchUpdateStaffs}
                     resetStaffInforForm={this.props.resetStaffInforForm}
+                    resetStaffModifyForm={this.props.resetStaffModifyForm}
                 />
             )
         };

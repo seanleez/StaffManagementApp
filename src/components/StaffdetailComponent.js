@@ -30,7 +30,7 @@ const StaffDetail = (props) => {
     if (props.isLoading) {
         return(
             <div className="container">
-                <div className="row height-60"></div>
+                <div className="row height-void"></div>
                 <div className="row">
                     <Loading />
                 </div>
@@ -39,7 +39,7 @@ const StaffDetail = (props) => {
     } else if (props.errMess) {
         return(
             <div className="container">
-                <div className="row height-60"></div>
+                <div className="row height-void"></div>
                 <div className="row">
                     <h3>{props.errMess}</h3>
                 </div>
@@ -48,7 +48,7 @@ const StaffDetail = (props) => {
     } else if (props.staff != null) {
         return(
             <div className="container">
-                <div className="row height-60"></div>
+                <div className="row height-void"></div>
                 <div className="row">
                     <Breadcrumb>
                         <BreadcrumbItem><Link to="/staff">Staff</Link></BreadcrumbItem>

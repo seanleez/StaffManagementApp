@@ -15,6 +15,9 @@ export const ConfigureStore = () => {
             staffsSalary: StaffsSalary,
             ...createForms({
                 staffinfor: InitialStaffInfor
+            }),
+            ...createForms({
+                staffmodifyform: InitialStaffInfor
             })
         }),
         applyMiddleware(thunk, logger)

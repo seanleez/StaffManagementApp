@@ -1,33 +1,22 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardTitle,
-    Label, Button, Col, Row,
-    Input,Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Label, Button, Col, Row,
+    Input,Modal, ModalHeader, ModalBody} from 'reactstrap';
 import { Control, Form, Errors} from 'react-redux-form';
-import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
-
-function RenderStaffItem({ staff }) {
-    return (
-        <Link to={`/staff/${staff.id}`}>
-            <Card className="text-center">
-                <CardImg src={staff.image} alt={staff.name}/>
-                <CardTitle className="mt-2">{staff.name}</CardTitle>
-            </Card>
-        </Link>
-    );
-}
+import RenderStaffItem from './RenderStaffItem';
 
 // For validate form purpose
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => !(val) || (val.length >= len);
-const positiveNumber = (val) => !(val) || (val > 0)
-const compareAge = (val) => {
-    var currentDate = new Date();
-    var val_parts = String(val).split('-');
-    var val_date = new Date(val_parts[0], val_parts[1] - 1, val_parts[2]);
-    return(!(val) || (currentDate.getFullYear() - val_date.getFullYear() > 0))
-}
+const positiveValue = (val) => !(val) || (Number(val) > 0);
+const isNumber = (val) => !(val) || !isNaN(Number(val));
+// const compareAge = (val) => {
+//     var currentDate = new Date();
+//     var val_parts = String(val).split('-');
+//     var val_date = new Date(val_parts[0], val_parts[1] - 1, val_parts[2]);
+//     return(!(val) || (currentDate.getFullYear() - val_date.getFullYear() > 18))
+// }
 const compareCurrentDate = (val) => {
     var currentDate = new Date();
     var val_parts = String(val).split('-');
@@ -48,11 +37,10 @@ class StaffList extends Component {
         this.handleSortList = this.handleSortList.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
 
-        // toggleModal
         this.toggleModal = this.toggleModal.bind(this);
-        // Controlled Form
         this.handleAddStaff = this.handleAddStaff.bind(this);
-        // Validate Form
+        this.handleDeleteStaff = this.handleDeleteStaff.bind(this);
+
     }
 
     handleSortChange(e) {
@@ -91,10 +79,34 @@ class StaffList extends Component {
 
     // Button AddStaff => submit new staff's infor
     handleAddStaff(values) {
+        console.log(this.props.staffs.staffs.length)
         this.toggleModal();
-        this.props.addStaff(this.props.staffs.staffs.length, values.name, values.doB, Number(values.salaryScale), values.startDate, values.department, Number(values.annualLeave), Number(values.overTime), values.image);
+        let departmentID
+        switch (values.department) {
+            case "Sale":
+                departmentID = "Dept01";
+                break;
+            case "HR":
+                departmentID = "Dept02";
+                break;
+            case "Marketing":
+                departmentID = "Dept03";
+                break;
+            case "IT":
+                departmentID = "Dept04";
+                break;
+            case "Finance":
+                departmentID = "Dept05";
+                break;
+        }
         console.log(values);
+        this.props.postStaff(values.name, values.doB , Number(values.salaryScale), values.startDate, departmentID , Number(values.annualLeave), Number(values.overTime));
         this.props.resetStaffInforForm();
+    }
+
+    handleDeleteStaff(id) {
+        console.log(id)
+        this.props.fetchDelStaffs(id);
     }
 
     render() {
@@ -112,7 +124,13 @@ class StaffList extends Component {
                 <div
                     key={staff.id}
                     className="col-6 col-sm-4 col-lg-2 my-2 p-2">
-                    <RenderStaffItem staff={staff} />
+                    <RenderStaffItem 
+                        staff={staff} 
+                        handleDelete={this.handleDeleteStaff}
+                        resetStaffModifyForm={this.props.resetStaffModifyForm}
+                        fetchUpdateStaffs={this.props.fetchUpdateStaffs}
+                    />
+                    
                 </div>
             );
         });
@@ -120,7 +138,7 @@ class StaffList extends Component {
         if (this.props.staffs.isLoading) {
             return(
                 <div className="container">
-                    <div className="row height-60"></div>
+                    <div className="row height-void"></div>
                     <div className="row">
                         <Loading />
                     </div>
@@ -129,7 +147,7 @@ class StaffList extends Component {
         } else if (this.props.staffs.errMess) {
             return(
                 <div className="container">
-                    <div className="row height-60"></div>
+                    <div className="row height-void"></div>
                     <div className="row">
                         <div className="col-12">
                             <h3>{this.props.staffs.errMess}</h3>
@@ -140,7 +158,7 @@ class StaffList extends Component {
         } else {
             return (
                 <div className="container">
-                    <div className="row height-60"></div>
+                    <div className="row height-void"></div>
                     <div className="row">
                         <div className="col-12 mt-2">
                             <h3>Staff</h3>
@@ -167,7 +185,7 @@ class StaffList extends Component {
                             </select>
                         </div>
                         
-                        <div className="col-12 col-sm-12 col-lg-4 my-2">
+                        <div className="col-12 col-sm-6 col-lg-4 my-2">
                             <div>
                                 <Label htmlFor="findstaff">
                                     <i>FindStaff:</i>
@@ -191,10 +209,10 @@ class StaffList extends Component {
                             </div>
                         </div>
 
-                        <div className="col-12 col-sm-12 col-lg-4 d-flex justifycontentend">
+                        <div className="col-12 col-sm-6 col-lg-4 d-flex justifycontentend">
                             <Button
                                 onClick={this.toggleModal}
-                                color="danger"
+                                color="info"
                                 className="mb-1 mx-2">
                                 <span className="fa fa-plus fa-lg"></span>{' '}
                                 <b>ADD STAFF</b>
@@ -241,7 +259,7 @@ class StaffList extends Component {
                                             defaultValue=""
                                             className="form-control"
                                             validators={{
-                                                required, compareAge
+                                                required, compareCurrentDate
                                             }} />
                                         <Errors
                                             className="text-danger"
@@ -249,7 +267,7 @@ class StaffList extends Component {
                                             show="touched"
                                             messages={{
                                                 required: 'Day of birth should not be empty.',
-                                                compareAge: ' Age of Staff should be > 18.'
+                                                compareCurrentDate: ' Day of birth should be smaller than current day.'
                                             }}
                                         />
                                     </Col>
@@ -302,19 +320,20 @@ class StaffList extends Component {
                                 <Row className="form-group">
                                     <Label htmlFor="salaryScale" xs={4} md={3}>Salary Scale:</Label>
                                     <Col xs={8} md={9}>
-                                        <Control type="number" model=".salaryScale" id="salaryScale" name="salaryScale"
+                                        <Control.text model=".salaryScale" id="salaryScale" name="salaryScale"
                                             defaultValue=""
                                             className="form-control"
                                             validators={{
-                                                required, positiveNumber
+                                                required, positiveValue, isNumber
                                             }} />
                                         <Errors
                                             className="text-danger"
                                             model=".salaryScale"
                                             show="touched"
                                             messages={{
-                                                required: 'Salary Scale should not be empty.',
-                                                positiveNumber: 'Salary Scale should be positive.'
+                                                required: ' Salary Scale should not be empty.',
+                                                positiveValue: ' Salary Scale should be positive.',
+                                                isNumber : ' Salary Scale should be a number'
                                             }}
                                         />
                                     </Col>
@@ -322,19 +341,20 @@ class StaffList extends Component {
                                 <Row className="form-group">
                                     <Label htmlFor="annualLeave" xs={4} md={3}>Annual Leave:</Label>
                                     <Col xs={8} md={9}>
-                                        <Control type="number" model=".annualLeave" id="annualLeave" name="annualLeave"
+                                        <Control.text model=".annualLeave" id="annualLeave" name="annualLeave"
                                             defaultValue=""
                                             className="form-control"
                                             validators={{
-                                                required, positiveNumber
+                                                required, positiveValue, isNumber
                                             }} />
                                         <Errors
                                             className="text-danger"
                                             model=".annualLeave"
                                             show="touched"
                                             messages={{
-                                                required: 'Annual Leave should not be empty.',
-                                                positiveNumber: 'Annual Leave should be positive.'
+                                                required: ' Annual Leave should not be empty.',
+                                                positiveValue: ' Salary Scale should be positive.',
+                                                isNumber : ' Salary Scale should be a number'
                                             }}
                                         />
                                     </Col>
@@ -342,41 +362,20 @@ class StaffList extends Component {
                                 <Row className="form-group">
                                     <Label htmlFor="overTime" xs={4} md={3}>Over Time:</Label>
                                     <Col xs={8} md={9}>
-                                        <Control type="number" model=".overTime" id="overTime" name="overTime"
+                                        <Control.text model=".overTime" id="overTime" name="overTime"
                                             defaultValue=""
                                             className="form-control"
                                             validators={{
-                                                required, positiveNumber
+                                                required, positiveValue, isNumber
                                             }} />
                                         <Errors
                                             className="text-danger"
                                             model=".overTime"
                                             show="touched"
                                             messages={{
-                                                required: 'Over Time should not be empty.',
-                                                positiveNumber: 'Over Time should be positive.'
-                                            }}
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row className="form-group">
-                                    <Label htmlFor="salary" xs={4} md={3}>Salary(VND):</Label>
-                                    <Col xs={8} md={9}>
-                                        <Control type="number" model=".salary" id="salary" name="salary"
-                                            defaultValue=""
-                                            min={500000}
-                                            step={100000}
-                                            className="form-control"
-                                            validators={{
-                                                required, positiveNumber
-                                            }} />
-                                        <Errors
-                                            className="text-danger"
-                                            model=".salary"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Salary should not be empty.',
-                                                positiveNumber: 'Salary should be positive.'
+                                                required: ' Over Time should not be empty.',
+                                                positiveValue: ' Salary Scale should be positive.',
+                                                isNumber : ' Salary Scale should be a number.'
                                             }}
                                         />
                                     </Col>

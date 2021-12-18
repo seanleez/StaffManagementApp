@@ -1,5 +1,4 @@
 export const InitialStaffInfor = {
-    id: '',
     name: '',
     doB: '',
     salaryScale: '',
@@ -7,5 +6,4 @@ export const InitialStaffInfor = {
     department: '',
     annualLeave: '',
     overTime: '',
-    image: "assets/images/HarryPotter.jpg",
 };
