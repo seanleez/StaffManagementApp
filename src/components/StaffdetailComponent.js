@@ -3,25 +3,32 @@ import { Media, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import dateFormat from 'dateformat'
 import { Loading } from './LoadingComponent';
+import { FadeTransform} from 'react-animation-components';
 
 function RenderStaff({ staff, department }) {
     return(
         <Media className="mb-3">
-            <div className="col-12 col-sm-3 col-md-4 d-inline-block position-relative align-top m-0">
-                <Media>
-                    <Media width="100%" object src={staff.image} alt={staff.name} className="top mx-auto text-center"></Media>
-                </Media>
-            </div>
-            <div className="col-12 col-sm-9 col-md-8 d-inline-block px-3 pt-2 m-0">
-                <Media body>
-                    <Media heading>{staff.name}</Media>
-                    <p>Day of Birth: {dateFormat(staff.doB, "dd, mm, yyyy")}</p>
-                    <p>Start Day: {dateFormat(staff.startDay, "dd, mm, yyyy")}</p>
-                    <p>Department: {department.name}</p>
-                    <p>Annual Leave: {staff.annualLeave}</p>
-                    <p>Over Time: {staff.overTime}</p>
-                </Media>
-            </div>
+            <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.1) translateY(-50%)'
+                }}>
+                <div className="col-12 col-sm-3 col-md-4 d-inline-block position-relative align-top m-0">
+                    <Media>
+                        <Media width="100%" object src={staff.image} alt={staff.name} className="top mx-auto text-center"></Media>
+                    </Media>
+                </div>
+                <div className="col-12 col-sm-9 col-md-8 d-inline-block px-3 pt-2 m-0">
+                    <Media body>
+                        <Media heading>{staff.name}</Media>
+                        <p>Day of Birth: {dateFormat(staff.doB, "dd, mm, yyyy")}</p>
+                        <p>Start Day: {dateFormat(staff.startDay, "dd, mm, yyyy")}</p>
+                        <p>Department: {department.name}</p>
+                        <p>Annual Leave: {staff.annualLeave}</p>
+                        <p>Over Time: {staff.overTime}</p>
+                    </Media>
+                </div>
+            </FadeTransform>
         </Media>
     )
 }

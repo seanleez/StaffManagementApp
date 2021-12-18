@@ -102,6 +102,7 @@ export const fetchUpdateStaffs = (id, name, doB, salaryScale, startDate, departm
         console.log(response);
         dispatch(updateStaffs(response));
         dispatch(addStaffsSalary(response));
+        alert(name + " has been successfully updated!!!");
     })
     .catch(error => {
         console.log('Update Staff', error.message); 

@@ -99,14 +99,18 @@ class StaffList extends Component {
                 departmentID = "Dept05";
                 break;
         }
-        console.log(values);
         this.props.postStaff(values.name, values.doB , Number(values.salaryScale), values.startDate, departmentID , Number(values.annualLeave), Number(values.overTime));
         this.props.resetStaffInforForm();
     }
 
     handleDeleteStaff(id) {
-        console.log(id)
-        this.props.fetchDelStaffs(id);
+        if (window.confirm('Are you sure you want to delete this Staff')) {
+            this.props.fetchDelStaffs(id);
+            console.log('Staff was deleted to the database.');
+        } else {
+            // Do nothing!
+            console.log('Staff was not deleted to the database.');
+        }
     }
 
     render() {
@@ -185,7 +189,7 @@ class StaffList extends Component {
                             </select>
                         </div>
                         
-                        <div className="col-12 col-sm-6 col-lg-4 my-2">
+                        <div className="col-12 col-sm-8 col-lg-5 my-2">
                             <div>
                                 <Label htmlFor="findstaff">
                                     <i>FindStaff:</i>
@@ -209,10 +213,10 @@ class StaffList extends Component {
                             </div>
                         </div>
 
-                        <div className="col-12 col-sm-6 col-lg-4 d-flex justifycontentend">
+                        <div className="col-12 col-sm-4 col-lg-3 d-flex justifycontentend">
                             <Button
                                 onClick={this.toggleModal}
-                                color="info"
+                                color="primary"
                                 className="mb-1 mx-2">
                                 <span className="fa fa-plus fa-lg"></span>{' '}
                                 <b>ADD STAFF</b>

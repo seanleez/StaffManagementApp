@@ -2,21 +2,28 @@ import React, { Component } from "react";
 import { Card, CardTitle, CardText, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent'
+import { FadeTransform} from 'react-animation-components';
 
 function RenderSalaryItem({salaryItem}) {
     return(
-        <Card>
-            <CardTitle className="text-center mt-2 mb-0">{salaryItem.name}</CardTitle>
-            <hr />
-            <CardText className="offset-1">Staff ID: <i>{salaryItem.id}</i></CardText>
-            <CardText className="offset-1">Salary Scale: <i>{salaryItem.salaryScale}</i></CardText>
-            <CardText className="offset-1">Overtime: <i>{salaryItem.overTime}</i></CardText>
-            <div className="text-center border border-3 mx-4 mb-2">
-                <CardText className="py-1">
-                    Salary: <i>{salaryItem.salary.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} VND</i>
-                </CardText>
-            </div>
-        </Card>
+        <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.1) translateY(-50%)'
+                }}>
+            <Card>
+                <CardTitle className="text-center mt-2 mb-0">{salaryItem.name}</CardTitle>
+                <hr />
+                <CardText className="offset-1">Staff ID: <i>{salaryItem.id}</i></CardText>
+                <CardText className="offset-1">Salary Scale: <i>{salaryItem.salaryScale}</i></CardText>
+                <CardText className="offset-1">Overtime: <i>{salaryItem.overTime}</i></CardText>
+                <div className="text-center border border-3 mx-4 mb-2">
+                    <CardText className="py-1">
+                        Salary: <i>{salaryItem.salary.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} VND</i>
+                    </CardText>
+                </div>
+            </Card>
+        </FadeTransform>
     )
 }
 

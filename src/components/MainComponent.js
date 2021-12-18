@@ -10,6 +10,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { postStaff, fetchStaffs, fetchDepartments, fetchStaffsSalary, fetchDelStaffs, fetchUpdateStaffs } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapStateToProps = state => {
     return {
@@ -80,14 +81,18 @@ class Main extends Component {
         return (
             <div>
                 <Header />
-                <Switch>
-                    <Route exact path="/staff" component={HomePageStaffList} />
-                    <Route path="/staff/:staffId" component={StaffWithId} />
-                    <Route exact path="/department" component={() => <Department departments={this.props.departments} />} />
-                    <Route path="/department/:departmentId" component={HomePageStaffInDepartment} />
-                    <Route path="/salary" component={() => <Salary staffsSalary={this.props.staffsSalary}/>} />
-                    <Redirect to="/staff" />
-                </Switch>
+                <TransitionGroup>
+                    <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
+                        <Switch location={this.props.location}>
+                            <Route exact path="/staff" component={HomePageStaffList} />
+                            <Route path="/staff/:staffId" component={StaffWithId} />
+                            <Route exact path="/department" component={() => <Department departments={this.props.departments} />} />
+                            <Route path="/department/:departmentId" component={HomePageStaffInDepartment} />
+                            <Route path="/salary" component={() => <Salary staffsSalary={this.props.staffsSalary}/>} />
+                            <Redirect to="/staff" />
+                        </Switch>
+                    </CSSTransition>
+                </TransitionGroup>
                 <Footer />
             </div>
         );

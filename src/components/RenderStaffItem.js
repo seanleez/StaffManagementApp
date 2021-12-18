@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardTitle,
     Label, Button, Col, Row,
-    Modal, ModalHeader, ModalBody} from 'reactstrap';
+    Modal, ModalHeader, ModalBody,
+    DropdownToggle, DropdownMenu, DropdownItem, Dropdown} from 'reactstrap';
 import { Control, Form, Errors} from 'react-redux-form';
 import { Link } from 'react-router-dom';
 
@@ -22,13 +23,21 @@ class RenderStaffItem extends Component {
         super(props)
         this.state = {
             isModalOpen: false,
+            isDropdownOpen: false
         }
-        this.toggleModal = this.toggleModal.bind(this)
+        this.toggleModal = this.toggleModal.bind(this);
+        this.toggleDropdown = this.toggleDropdown.bind(this);
+    }
+
+    toggleDropdown() {
+        this.setState({
+            isDropdownOpen: !this.state.isDropdownOpen
+        })
     }
 
     toggleModal() {
         this.setState({
-            isModalOpen: !this.state.isModalOpen,
+            isModalOpen: !this.state.isModalOpen
         });
     }
 
@@ -60,14 +69,21 @@ class RenderStaffItem extends Component {
         return(
             <React.Fragment>
                 <div className='position-relative'>
-                    <div className="buttonDelete">
-                        <Button color="warning" onClick={this.toggleModal}>
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </Button>
-                        <Button color="danger" onClick={() => this.props.handleDelete(this.props.staff.id)}>
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                        </Button>
-                    </div>
+                    <Dropdown isOpen={this.state.isDropdownOpen} toggle={this.toggleDropdown} className="dropdown" size="sm">
+                        <DropdownToggle color="success"><i className="fa fa-align-justify" aria-hidden="true"></i></DropdownToggle>
+                        <DropdownMenu right className="py-0">
+                            <DropdownItem className="p-0 text-center" title="Modify" onClick={this.toggleModal}>
+                                <div className='bg-warning'>
+                                    <i className="fa fa-pencil fa-2x" aria-hidden="true"></i>
+                                </div>
+                            </DropdownItem>
+                            <DropdownItem className="p-0 text-center" title="Delete" onClick={() => this.props.handleDelete(this.props.staff.id)}>
+                                <div className='bg-danger'>
+                                    <i className="fa fa-times fa-2x" aria-hidden="true"></i>
+                                </div>
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                     <Link to={`/staff/${this.props.staff.id}`}>
                         <Card className="text-center">
                             <CardImg src={this.props.staff.image} alt={this.props.staff.name}/>
