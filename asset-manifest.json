@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/StaffManagementApp/static/css/main.1559597a.chunk.css",
-    "main.js": "/StaffManagementApp/static/js/main.5dadf3c5.chunk.js",
-    "main.js.map": "/StaffManagementApp/static/js/main.5dadf3c5.chunk.js.map",
+    "main.js": "/StaffManagementApp/static/js/main.61fd74ff.chunk.js",
+    "main.js.map": "/StaffManagementApp/static/js/main.61fd74ff.chunk.js.map",
     "runtime-main.js": "/StaffManagementApp/static/js/runtime-main.df86e1ce.js",
     "runtime-main.js.map": "/StaffManagementApp/static/js/runtime-main.df86e1ce.js.map",
     "static/css/2.de977ece.chunk.css": "/StaffManagementApp/static/css/2.de977ece.chunk.css",
@@ -22,6 +22,6 @@
     "static/css/2.de977ece.chunk.css",
     "static/js/2.a4663165.chunk.js",
     "static/css/main.1559597a.chunk.css",
-    "static/js/main.5dadf3c5.chunk.js"
+    "static/js/main.61fd74ff.chunk.js"
   ]
 }
