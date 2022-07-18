@@ -5,6 +5,7 @@ import { Card, CardImg, CardTitle,
     DropdownToggle, DropdownMenu, DropdownItem, Dropdown} from 'reactstrap';
 import { Control, Form, Errors} from 'react-redux-form';
 import { Link } from 'react-router-dom';
+import IMAGE from './HarryPotter.jpg'
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -86,7 +87,7 @@ class RenderStaffItem extends Component {
                     </Dropdown>
                     <Link to={`/staff/${this.props.staff.id}`}>
                         <Card className="text-center">
-                            <CardImg src={this.props.staff.image} alt={this.props.staff.name}/>
+                            <CardImg src={IMAGE} alt={this.props.staff.name}/>
                             <CardTitle className="mt-2">{this.props.staff.name}</CardTitle>
                         </Card>
                     </Link>
