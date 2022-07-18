@@ -1,25 +1,27 @@
 {
   "files": {
-    "main.css": "/FUNiXReactJSASM/static/css/main.c0d54e22.chunk.css",
-    "main.js": "/FUNiXReactJSASM/static/js/main.a6a988e2.chunk.js",
-    "main.js.map": "/FUNiXReactJSASM/static/js/main.a6a988e2.chunk.js.map",
-    "runtime-main.js": "/FUNiXReactJSASM/static/js/runtime-main.e6a40976.js",
-    "runtime-main.js.map": "/FUNiXReactJSASM/static/js/runtime-main.e6a40976.js.map",
-    "static/css/2.4659568d.chunk.css": "/FUNiXReactJSASM/static/css/2.4659568d.chunk.css",
-    "static/js/2.fd03c6bf.chunk.js": "/FUNiXReactJSASM/static/js/2.fd03c6bf.chunk.js",
-    "static/js/2.fd03c6bf.chunk.js.map": "/FUNiXReactJSASM/static/js/2.fd03c6bf.chunk.js.map",
-    "static/js/3.31259356.chunk.js": "/FUNiXReactJSASM/static/js/3.31259356.chunk.js",
-    "static/js/3.31259356.chunk.js.map": "/FUNiXReactJSASM/static/js/3.31259356.chunk.js.map",
+    "main.css": "/FUNiXReactJSASM/static/css/main.1559597a.chunk.css",
+    "main.js": "/FUNiXReactJSASM/static/js/main.5dadf3c5.chunk.js",
+    "main.js.map": "/FUNiXReactJSASM/static/js/main.5dadf3c5.chunk.js.map",
+    "runtime-main.js": "/FUNiXReactJSASM/static/js/runtime-main.d21d63c2.js",
+    "runtime-main.js.map": "/FUNiXReactJSASM/static/js/runtime-main.d21d63c2.js.map",
+    "static/css/2.8e5534f9.chunk.css": "/FUNiXReactJSASM/static/css/2.8e5534f9.chunk.css",
+    "static/js/2.a4663165.chunk.js": "/FUNiXReactJSASM/static/js/2.a4663165.chunk.js",
+    "static/js/2.a4663165.chunk.js.map": "/FUNiXReactJSASM/static/js/2.a4663165.chunk.js.map",
+    "static/js/3.402346eb.chunk.js": "/FUNiXReactJSASM/static/js/3.402346eb.chunk.js",
+    "static/js/3.402346eb.chunk.js.map": "/FUNiXReactJSASM/static/js/3.402346eb.chunk.js.map",
     "index.html": "/FUNiXReactJSASM/index.html",
-    "static/css/2.4659568d.chunk.css.map": "/FUNiXReactJSASM/static/css/2.4659568d.chunk.css.map",
-    "static/css/main.c0d54e22.chunk.css.map": "/FUNiXReactJSASM/static/css/main.c0d54e22.chunk.css.map",
-    "static/js/2.fd03c6bf.chunk.js.LICENSE.txt": "/FUNiXReactJSASM/static/js/2.fd03c6bf.chunk.js.LICENSE.txt"
+    "static/css/2.8e5534f9.chunk.css.map": "/FUNiXReactJSASM/static/css/2.8e5534f9.chunk.css.map",
+    "static/css/main.1559597a.chunk.css.map": "/FUNiXReactJSASM/static/css/main.1559597a.chunk.css.map",
+    "static/js/2.a4663165.chunk.js.LICENSE.txt": "/FUNiXReactJSASM/static/js/2.a4663165.chunk.js.LICENSE.txt",
+    "static/media/HarryPotter.81e9dbae.jpg": "/FUNiXReactJSASM/static/media/HarryPotter.81e9dbae.jpg",
+    "static/media/font-awesome.min.css": "/FUNiXReactJSASM/static/media/fontawesome-webfont.f691f37e.woff"
   },
   "entrypoints": [
-    "static/js/runtime-main.e6a40976.js",
-    "static/css/2.4659568d.chunk.css",
-    "static/js/2.fd03c6bf.chunk.js",
-    "static/css/main.c0d54e22.chunk.css",
-    "static/js/main.a6a988e2.chunk.js"
+    "static/js/runtime-main.d21d63c2.js",
+    "static/css/2.8e5534f9.chunk.css",
+    "static/js/2.a4663165.chunk.js",
+    "static/css/main.1559597a.chunk.css",
+    "static/js/main.5dadf3c5.chunk.js"
   ]
 }
