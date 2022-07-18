@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardImg, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Fade } from 'react-animation-components';
+import IMAGE from './HarryPotter.jpg'
 
 const StaffInDepartment = (props) => {
 
@@ -12,7 +13,7 @@ const StaffInDepartment = (props) => {
                     className="col-6 col-sm-4 col-lg-2 my-2 p-2">
                     <Fade in>
                         <Card className="text-center">
-                            <CardImg src={staff.image} alt={staff.name}/>
+                            <CardImg src={IMAGE} alt={staff.name}/>
                             <CardTitle className="mt-2">{staff.name}</CardTitle>
                         </Card>
                     </Fade>
